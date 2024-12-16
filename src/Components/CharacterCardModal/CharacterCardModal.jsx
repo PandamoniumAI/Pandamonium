@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const CharacterCardModal = ({ character, onHover }) => {
+const CharacterCardModal = ({ character }) => {
   return (
     <div className="character-modal">
       <div className="modal-content">

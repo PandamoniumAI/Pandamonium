@@ -18,21 +18,22 @@
 .character-card::before {
   content: "";
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: radial-gradient(
-    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(255, 255, 255, 0.15),
-    transparent 50%
+    circle 250px at var(--x) var(--y),
+    rgba(255, 255, 255, 0.2),
+    transparent 70%
   );
+  pointer-events: none; /* Makes sure it doesn't interfere with hover */
+  transition: background 0.1s linear;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
 }
 
 .character-card:hover::before {
-  opacity: 1;
+  opacity: 1; /* Light effect appears on hover */
 }
 
 .character-image {
