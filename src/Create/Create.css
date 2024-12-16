@@ -1,0 +1,192 @@
+body {
+    background-color: #121212;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: "Arial", sans-serif;
+  }
+  .creation-form {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #444;
+    transition: all 0.3s ease;
+  }
+  .creation-form:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  .form-control {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #fff;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+  }
+  .form-control:focus {
+    background-color: #444;
+    border-color: #007bff;
+    color: #fff;
+  }
+  .form-label {
+    font-weight: bold;
+  }
+  .btn {
+    background-color: #007bff;
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  .select2-container {
+    width: 100%;
+  }
+  .custom-tag-field {
+    margin-top: 20px;
+  }
+  .custom-tag-field input {
+    width: calc(100% - 60px);
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .custom-tag-field button {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+  }
+  .custom-tag-field button:hover {
+    background-color: #218838;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  #guideline{
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .tags-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    animation: fadeIn 0.3s;
+  }
+  
+  .tags-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #121212;
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    animation: slideIn 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .tags-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1rem;
+  }
+  
+  .btn-close {
+    background-color: white;
+  }
+  
+  .tag-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag-pill {
+    padding: 0.5rem 1rem;
+    background: #2d2d2d;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #444;
+  }
+  
+  .tag-pill:hover {
+    background: #3d3d3d;
+    transform: translateY(-1px);
+  }
+  
+  .tag-pill.selected {
+    background: #007bff;
+    color: white;
+    border-color: #0056b3;
+  }
+  
+  .selected-tags {
+    background: #1a1a1a;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  
+  .form-control {
+    background: #2d2d2d;
+    border: 1px solid #444;
+    color: white;
+  }
+  
+  .form-control:focus {
+    background: #2d2d2d;
+    color: white;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .form-control::placeholder {
+    color: #888;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translate(-50%, -60%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+  }
+  
