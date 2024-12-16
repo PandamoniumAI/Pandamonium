@@ -1,21 +1,37 @@
 import { useEffect, useState } from "react";
 import { FetchCharacters } from "../../Utils/Utils";
 import SearchBar from "../SearchBar/SearchBar";
-import "../../Types/typedef";
 import CharacterCard from "../CharacterCard/CharacterCard";
+import CharacterCardModal from "../CharacterCardModal/CharacterCardModal";
 import "./HomePage.css";
 
 const HomePage = () => {
-  const [characters, setCharacters] = useState(
-    /** @type {CharacterData[]} */ [],
-  );
+  const [characters, setCharacters] = useState([]);
 
   const [filteredCharacters, setFilteredCharacters] = useState([]);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showModal]);
 
   let refresh = false;
   const fetchCharacters = async () => {
     const data = await FetchCharacters();
     setCharacters(data);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedCharacter(null);
   };
 
   useEffect(() => {
@@ -39,12 +55,36 @@ const HomePage = () => {
       <div className="characters">
         {filteredCharacters.length > 0
           ? filteredCharacters.map((character, index) => {
-              return <CharacterCard key={index} character={character} />;
+              return (
+                <CharacterCard
+                  onClick={() => {
+                    setSelectedCharacter(character);
+                    setShowModal(!showModal);
+                  }}
+                  key={index}
+                  character={character}
+                />
+              );
             })
           : characters.map((character, index) => {
-              return <CharacterCard key={index} character={character} />;
+              return (
+                <CharacterCard
+                  onClick={() => {
+                    setSelectedCharacter(character);
+                    setShowModal(!showModal);
+                  }}
+                  key={index}
+                  character={character}
+                />
+              );
             })}
       </div>
+      {showModal && selectedCharacter && (
+        <CharacterCardModal
+          onClose={closeModal}
+          character={selectedCharacter}
+        />
+      )}
     </div>
   );
 };

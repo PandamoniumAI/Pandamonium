@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import "./CharacterCard.css";
 
-const CharacterCard = ({ character }) => {
+const CharacterCard = ({ character, onClick }) => {
   const cardRef = useRef(null);
+  const shortDesc = character.description.substring(0, 100) + "...";
 
   const handleMouseMove = (e) => {
     const rect = cardRef.current.getBoundingClientRect();
@@ -14,7 +15,15 @@ const CharacterCard = ({ character }) => {
   };
 
   return (
-    <div ref={cardRef} className="character-card" onMouseMove={handleMouseMove}>
+    <div
+      onClick={() => {
+        onClick();
+        console.log("clicked");
+      }}
+      ref={cardRef}
+      className="character-card"
+      onMouseMove={handleMouseMove}
+    >
       <div className="image-container">
         <img
           className="character-image"
@@ -23,7 +32,7 @@ const CharacterCard = ({ character }) => {
         />
       </div>
       <h3 className="character-name">{character.name}</h3>
-      <p className="character-description">{character.description}</p>
+      <p className="character-description">{shortDesc}</p>
       <span className="badge bg-primary character-tags">{character.tag}</span>
     </div>
   );
