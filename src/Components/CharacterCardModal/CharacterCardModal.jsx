@@ -16,8 +16,7 @@ const CharacterCardModal = ({ character, onClose }) => {
           <p className="modal-desc">{expandedDesc}</p>
           <Link
             to={{
-              pathname: `/chatting`,
-              search: `?id=${character.id}`,
+              pathname: `/chat/${character.id}`,
             }}
             className="modal-btn"
           >

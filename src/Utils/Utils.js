@@ -1,4 +1,4 @@
-import ds from "./dataSource";
+import { ds } from "./dataSource";
 export const FetchCharacters = async () => {
   const response = await ds.get("https://server-hhcx.onrender.com/characters");
   console.log("Response:", response);

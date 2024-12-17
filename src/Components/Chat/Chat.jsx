@@ -1,17 +1,28 @@
 import "../CSS/chat.css";
+import { api } from "../../Utils/dataSource";
 import React from "react";
 import Checker from "./Checker/Checker";
 import { showPreview, hidePreview } from "./Preview/Preview.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loading from "./Loading/Loading";
 import HandleMessage from "./handleMessage/handleMessage";
-export default function Chat() {
+export const Chat = ({ id }) => {
+  const [characterData, setCharacterData] = useState(null);
+
+  const [messages, setMessages] = useState([]);
+  const fetchCharacter = async () => {
+    const response = await api.get(`/character/id?id=${id}`);
+    const data = await response.json();
+    setCharacterData(data);
+  };
+  const refresh = false;
+
+  useEffect(() => {
+    fetchCharacter();
+  }, [refresh]);
+
   return (
     <>
-      <Checker />
-
-      <Loading />
-
       <div
         className="header"
         style={{
@@ -60,7 +71,7 @@ export default function Chat() {
                 id="characterName"
                 style={{ margin: 0, color: "#4a90e2", fontSize: "1.5rem" }}
               >
-                NULL
+                {characterData ? characterData.name : "NULL"}
               </h3>
               <p
                 id="characterDescription"
@@ -73,7 +84,7 @@ export default function Chat() {
                   marginTop: "5px",
                 }}
               >
-                NULL
+                {characterData ? characterData.description : "NULL"}
               </p>
             </div>
           </div>
@@ -246,4 +257,4 @@ export default function Chat() {
       </div>
     </>
   );
-}
+};
