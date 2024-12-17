@@ -1,0 +1,131 @@
+.character-card {
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  transform: scale(1);
+}
+
+.character-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle 250px at var(--x) var(--y),
+    rgba(255, 255, 255, 0.15),
+    transparent 70%
+  );
+  pointer-events: none;
+  transition: background 0.1s linear;
+  opacity: 0;
+}
+
+.character-card:hover::before {
+  opacity: 1;
+}
+
+.character-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.character-card:hover .character-image {
+  transform: scale(1.05);
+}
+
+.animate__animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.animate__fadeInUp {
+  animation-name: fadeIn;
+}
+
+.chat-count {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.character-name {
+  color: #fff;
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.character-description {
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.character-tags {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  align-self: flex-start;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+@media (max-width: 768px) {
+  .character-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .character-image {
+    height: 160px;
+  }
+
+  .character-name {
+    font-size: 1.2rem;
+  }
+
+  .character-description {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+
+  .chat-count {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+}
