@@ -1,4 +1,4 @@
-const SearchBar = ({ performSearch }) => {
+const SearchBar = ({ performSearch, onKeyPress }) => {
   const handleChange = (e) => {
     performSearch(e.target.value);
   };
@@ -10,6 +10,7 @@ const SearchBar = ({ performSearch }) => {
       placeholder="Search characters..."
       aria-label="Search characters"
       onChange={handleChange}
+      onKeyPress={onKeyPress}
       style={{
         width: "50%",
         position: "relative",
