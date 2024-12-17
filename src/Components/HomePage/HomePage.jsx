@@ -4,7 +4,9 @@ import SearchBar from "../SearchBar/SearchBar";
 import CharacterCard from "../CharacterCard/CharacterCard";
 import CharacterCardModal from "../CharacterCardModal/CharacterCardModal";
 import "./HomePage.css";
-import Footer from "../../Assets/Footer.png";
+import Footer from "../../assets/footer.png";
+import Tags from "../Tags/Tags.jsx";
+import SideBar from "../SideBar/SideBARRR.jsx";
 
 const HomePage = () => {
   const [characters, setCharacters] = useState([]);
@@ -43,53 +45,18 @@ const HomePage = () => {
     <>
       <div
         id="loadingPopup"
-        style={{
-          display: "none",
-          position: "fixed",
-          top: "0",
-          left: "0",
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.9)",
-          zIndex: "9999",
-          justifyContent: "center",
-          alignItems: "center",
-          animation: "fadeIn 0.5s",
-        }}
+        className="d-none position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-90 d-flex justify-content-center align-items-center"
+        style={{ zIndex: 9999, animation: "fadeIn 0.5s" }}
       >
         <div
-          style={{
-            textAlign: "center",
-            color: "white",
-            animation: "slideIn 0.5s",
-          }}
+          className="text-center text-white"
+          style={{ animation: "slideIn 0.5s" }}
         >
-          <div
-            style={{
-              marginBottom: "20px",
-              fontSize: "1.5em",
-              fontWeight: "bold",
-            }}
-          >
-            Loading...
-          </div>
-          <div
-            style={{
-              width: "100%",
-              backgroundColor: "#555",
-              borderRadius: "5px",
-              overflow: "hidden",
-            }}
-          >
+          <div className="w-100 bg-secondary rounded-3">
             <div
               id="loadingBar"
-              style={{
-                width: "0%",
-                height: "20px",
-                backgroundColor: "#007bff",
-                borderRadius: "5px",
-                animation: "loading 2s infinite",
-              }}
+              className="w-0 h-3 bg-primary rounded-3"
+              style={{ animation: "loading 2s infinite" }}
             ></div>
           </div>
         </div>
@@ -110,33 +77,28 @@ const HomePage = () => {
           <img
             src={Footer}
             alt="Footer Image"
-            className="rounded"
+            className="rounded-3 shadow-lg"
             style={{
-              maxWidth: "40%",
+              width: "100%",
               height: "auto",
-              borderRadius: "20px",
-              filter: "brightness(1.1)",
-              padding: "8px",
-              userSelect: "none",
-              WebkitUserSelect: "none",
-              MozUserSelect: "none",
-              msUserSelect: "none",
+              maxWidth: "300px",
+              maxHeight: "200px",
+              transition: "transform 0.3s ease-in-out",
             }}
           />
         </a>
       </div>
 
       <h1
+        className="position-fixed top-0 start-0 fs-3 text-white"
         style={{
-          position: "absolute",
-          top: "10px",
-          left: "10px",
-          fontSize: "1.5rem",
-          color: "#ffffff",
           userSelect: "none",
-          WebkitUserSelect: "none",
-          MozUserSelect: "none",
-          msUserSelect: "none",
+          fontWeight: "bold",
+          letterSpacing: "1px",
+          textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+          padding: "20px",
+          margin: "0",
+          zIndex: 10000,
         }}
       >
         Pandamonium
