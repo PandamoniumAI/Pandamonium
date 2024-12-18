@@ -83,7 +83,7 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    <div className="homepage-container">
       <div className="search-bar-container">
         <SearchBar id="search-input" onKeyPress={handleKeyPress} />
         <Tags />
@@ -116,8 +116,8 @@ const HomePage = () => {
         <CharacterCardModal character={selectedCharacter} onClose={closeModal} />
       )}
 
-      {isMobile && <MobileSideBar />}
-    </>
+      {isMobile && <div className="mobile-sidebar-container"><MobileSideBar /></div>}
+    </div>
   );
 };
 
