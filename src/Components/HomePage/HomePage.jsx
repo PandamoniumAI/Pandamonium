@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useMediaQuery } from 'react-responsive';
 import { FetchCharacters } from "../../Utils/Utils";
 import SearchBar from "../SearchBar/SearchBar";
@@ -10,6 +10,7 @@ import Tags from "../Tags/Tags.jsx";
 import SideBar from "../SideBar/SideBar.jsx";
 import MobileSideBar from "../SideBar/MobileSideBar.jsx";
 import SkeletonCard from "../SkeletonCard/SkeletonCard";
+import Animal from "../../assets/animal.png";
 
 const HomePage = () => {
   const [characters, setCharacters] = useState([]);
@@ -19,7 +20,7 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 15;
-
+  
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useEffect(() => {
@@ -51,13 +52,14 @@ const HomePage = () => {
 
   const handleSearch = (query) => {
     const filtered = characters.filter((character) =>
-      character.name.toLowerCase().includes(query.toLowerCase()) ||
-      character.description.toLowerCase().includes(query.toLowerCase()) ||
-      character.tag.toLowerCase().includes(query.toLowerCase())
+    character.name.toLowerCase().includes(query.toLowerCase()) ||
+    character.description.toLowerCase().includes(query.toLowerCase()) ||
+    character.tag.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredCharacters(filtered);
     setCurrentPage(0);
-  };
+    setSearchQuery(query);
+    };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -73,7 +75,7 @@ const HomePage = () => {
   );
 
   const hasMorePages =
-    (currentPage + 1) * itemsPerPage < 
+    (currentPage + 1) * itemsPerPage <
     (filteredCharacters.length > 0 ? filteredCharacters.length : characters.length);
 
   const handleNextPage = () => {
@@ -81,6 +83,38 @@ const HomePage = () => {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
+
+  const updateTagsDropdownPosition = useCallback(() => {
+    const tagsDropdown = document.getElementById('tagsDropdown');
+    const Searchbar = document.getElementById('Searchbar');
+    if (tagsDropdown && Searchbar) {
+      const tagsDropdownRect = tagsDropdown.getBoundingClientRect();
+      const searchbarRect = Searchbar.getBoundingClientRect();
+
+      tagsDropdown.style.position = 'absolute';
+
+      if (window.innerWidth <= 768) {
+        tagsDropdown.style.top = `${searchbarRect.bottom + 10}px`;
+      } else {
+        tagsDropdown.style.top = `${searchbarRect.top}px`;
+        tagsDropdown.style.left = `${searchbarRect.right + 10}px`;
+      }
+
+      tagsDropdown.style.width = `${searchbarRect.width}px`;
+      Searchbar.style.width = `${searchbarRect.width}px`;
+    }
+  }, []);
+
+  useEffect(() => {
+    updateTagsDropdownPosition();
+    window.addEventListener('resize', updateTagsDropdownPosition);
+    window.addEventListener('orientationchange', updateTagsDropdownPosition);
+
+    return () => {
+      window.removeEventListener('resize', updateTagsDropdownPosition);
+      window.removeEventListener('orientationchange', updateTagsDropdownPosition);
+    };
+  }, [updateTagsDropdownPosition]);
 
   return (
     <div className="homepage-container">

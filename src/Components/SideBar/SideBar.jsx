@@ -14,22 +14,24 @@ export default function SideBar() {
 
       const startPosition = isHidden ? 65 : 0;
       const endPosition = isHidden ? 0 : 65;
-      const duration = 999;
+      const duration = 300;
       const startTime = performance.now();
 
       toggleSidebarBtn.style.opacity = isHidden ? 0.5 : 1;
 
-      function animate(currentTime) {
+      const animate = (currentTime) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = 1 - Math.pow(1 - progress, 4);
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
         const currentPosition = startPosition + (endPosition - startPosition) * easeProgress;
+        
         toggleSidebarBtn.style.left = `${currentPosition}px`;
+        sidebar.style.transform = `translateX(${isHidden ? -100 : 0}%)`;
 
         if (progress < 1) {
           requestAnimationFrame(animate);
         }
-      }
+      };
 
       requestAnimationFrame(animate);
     };

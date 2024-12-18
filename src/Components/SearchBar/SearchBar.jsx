@@ -7,6 +7,7 @@ const SearchBar = ({ performSearch, onKeyPress }) => {
     <input
       type="text"
       className="search-input form-control me-2"
+      id="Searchbar"
       placeholder="Search characters..."
       aria-label="Search characters"
       onChange={handleChange}

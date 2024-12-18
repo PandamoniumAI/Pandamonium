@@ -13,6 +13,11 @@
   position: relative;
   overflow: hidden;
   transform: scale(0.8);
+  border: 2px solid transparent;
+}
+
+.character-card:hover {
+  border: 2px solid white;
 }
 
 .character-card::before {
@@ -27,13 +32,13 @@
     rgba(255, 255, 255, 0.2),
     transparent 70%
   );
-  pointer-events: none; /* Makes sure it doesn't interfere with hover */
+  pointer-events: none;
   transition: background 0.1s linear;
   opacity: 0;
 }
 
 .character-card:hover::before {
-  opacity: 1; /* Light effect appears on hover */
+  opacity: 1;
 }
 
 .character-image {
