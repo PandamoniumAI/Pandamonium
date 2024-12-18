@@ -1,7 +1,8 @@
+/* Tags.css */
+
 .dropdown-container {
-  margin-bottom: 1rem;
   position: relative;
-  width: 100%;
+  display: inline-block;
 }
 
 .btn.dropdown-toggle {
@@ -18,38 +19,28 @@
   background-color: #495057;
 }
 
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 0.5rem;
-}
-
 .dropdown-menu {
+  display: block;
   background-color: black;
-  z-index: 999;
-  pointer-events: auto;
-  animation: fadeIn 0.5s;
+  color: white;
   border: 1px solid #343a40;
   border-radius: 0.25rem;
+  position: absolute;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0;
+  list-style-type: none;
+  z-index: 999;
 }
 
 .dropdown-item {
-  color: white;
-  text-decoration: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  text-decoration: none;
+  color: white;
 }
 
 .dropdown-item:hover {
   background-color: #495057;
-  color: white;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}

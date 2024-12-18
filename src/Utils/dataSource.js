@@ -1,6 +1,8 @@
+import { API_ENDPOINTS } from '../config/api.config.js';
+
 export const CharacterId = async () => {
   try {
-    const response = await fetch("https://server-hhcx.onrender.com/api/id", {
+    const response = await fetch(API_ENDPOINTS.CHARACTER_ID, {
       method: "GET",
     });
     return await response.json();
@@ -12,7 +14,7 @@ export const CharacterId = async () => {
 
 export const GetCharacterId = async () => {
   try {
-    const response = await fetch("https://server-hhcx.onrender.com/api/id/get", {
+    const response = await fetch(API_ENDPOINTS.GET_CHARACTER_ID, {
       method: "GET",
     });
     return await response.json();
@@ -27,7 +29,7 @@ export const GetCharacterdata = async (id) => {
     if (!id || isNaN(parseInt(id))) {
       throw new Error("Invalid or undefined character ID");
     }
-    const response = await fetch(`https://server-hhcx.onrender.com/characterdata/id?id=${id}`, {
+    const response = await fetch(`${API_ENDPOINTS.GET_CHARACTER_DATA}${id}`, {
       method: "GET",
     });
     return await response.json();
@@ -40,7 +42,7 @@ export const GetCharacterdata = async (id) => {
 export const Api = {
   generate: async () => {
     try {
-      const response = await fetch("https://serverv32.onrender.com/generate", {
+      const response = await fetch(API_ENDPOINTS.GENERATE, {
         method: "GET",
       });
       return await response.json();

@@ -73,7 +73,7 @@ const HomePage = () => {
   );
 
   const hasMorePages =
-    (currentPage + 1) * itemsPerPage <
+    (currentPage + 1) * itemsPerPage < 
     (filteredCharacters.length > 0 ? filteredCharacters.length : characters.length);
 
   const handleNextPage = () => {

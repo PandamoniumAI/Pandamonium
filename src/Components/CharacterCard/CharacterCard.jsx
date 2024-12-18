@@ -4,7 +4,7 @@ import "../CSS/CharacterCard.css";
 const CharacterCard = ({ character, onClick }) => {
   const cardRef = useRef(null);
   const [imageSrc, setImageSrc] = useState(character.photo);
-  const placeholderImage = "./error.jpg";
+  const placeholderImage = "../../assets/error.jpg";
 
   const shortDesc = character.description.substring(0, 100) + "...";
 
