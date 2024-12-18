@@ -7,7 +7,7 @@ import CharacterCardModal from "../CharacterCardModal/CharacterCardModal";
 import "../CSS/HomePage.css";
 import Footer from "../../assets/footer.png";
 import Tags from "../Tags/Tags.jsx";
-import SideBar from "../SideBar/SideBARRR.jsx";
+import SideBar from "../SideBar/SideBar.jsx";
 import MobileSideBar from "../SideBar/MobileSideBar.jsx";
 import SkeletonCard from "../SkeletonCard/SkeletonCard";
 
