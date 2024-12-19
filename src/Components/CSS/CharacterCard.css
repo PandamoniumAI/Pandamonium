@@ -44,7 +44,7 @@
   transition: transform 0.3s ease;
 }
 
-.character-card:hover .character-image {
+.character-card:hover.character-image {
   transform: scale(1.05);
 }
 
@@ -106,26 +106,49 @@
 }
 
 @media (max-width: 768px) {
-  .character-card {
+ .character-card {
     padding: 15px;
     border-radius: 12px;
   }
 
-  .character-image {
+ .character-image {
     height: 160px;
   }
 
-  .character-name {
+ .character-name {
     font-size: 1.2rem;
   }
 
-  .character-description {
+ .character-description {
     font-size: 0.9rem;
     margin-bottom: 15px;
   }
 
-  .chat-count {
+ .chat-count {
     font-size: 0.8rem;
     padding: 6px 10px;
   }
+}
+
+.character-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(0, 0, 0, 0.1)
+  );
+  pointer-events: none;
+}
+
+.character-card:hover::after {
+  opacity: 0.5;
+}
+
+.character-image:hover {
+  transform: scale(1.05);
 }

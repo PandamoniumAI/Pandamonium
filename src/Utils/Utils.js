@@ -1,6 +1,11 @@
 export const FetchCharacters = async () => {
   try {
-    const response = await fetch("https://server-hhcx.onrender.com/characters");
+    const response = await fetch("https://server-kgpq.onrender.com/characters", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     console.log("Response:", response);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

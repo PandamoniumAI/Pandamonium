@@ -4,6 +4,7 @@ const SearchBar = ({ performSearch, onKeyPress }) => {
   };
 
   return (
+  <>
     <input
       type="text"
       className="search-input form-control me-2"
@@ -18,6 +19,8 @@ const SearchBar = ({ performSearch, onKeyPress }) => {
         left: "350px"
       }}
     />
+    
+    </>
   );
 };
 
