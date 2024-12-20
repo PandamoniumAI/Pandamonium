@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaPaperPlane, FaImage, FaSmile, FaHome } from 'react-icons/fa';
+import { FaPaperPlane, FaImage, FaSmile, FaHome, FaCog  } from 'react-icons/fa';
 import './ExtraCss.css';
 import { GetCharacterId, GetCharacterdata, Api } from '../../Utils/dataSource';
 import errorimage from '../../assets/error.jpg';
 import Sidebar from '../Chat/Sidebar/Sidebar';
 import ReactMarkdown from 'react-markdown';
-
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 export default function Chat() {
   const [messageList, setMessageList] = useState([
     { role: 'system', content: '' }
@@ -158,10 +159,20 @@ const handleSubmitWrapper = async (e) => {
   }
 };
 
+const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+const toggleSettings = () => setIsSettingsOpen(!isSettingsOpen);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messageList]);
 
+  const toggleCharacterInfo = () => {
+    if (isSettingsOpen) {
+      console.log('Settings are open');
+    }
+  };
+  
   if (!character) return <div>Loading...</div>;
 
   return (
@@ -189,26 +200,94 @@ const handleSubmitWrapper = async (e) => {
             boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
           }}
         >
-          <div className="d-flex align-items-center gap-3">
-            <img
-              src={characterImage}
-              alt={characterName}
-              className="rounded-circle"
-              onClick={() => alert('Character Info Coming Soon!')}
-              style={{
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-                border: '2px solid #4e73df',
-                padding: '2px',
-                transition: 'transform 0.3s ease',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            />
-            <span className="fs-5 fw-bold text-white">{characterName}</span>
+
+<div className="d-flex align-items-center justify-content-between w-100 p-3">
+      <div className="d-flex align-items-center gap-3">
+        <img
+          src={characterImage}
+          alt={characterName}
+          className="rounded-circle"
+          onClick={toggleCharacterInfo}
+          style={{
+            width: '40px',
+            height: '40px',
+            cursor: 'pointer',
+            border: '2px solid #4e73df',
+            padding: '2px',
+            transition: 'transform 0.3s ease, border-color 0.3s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.2)';
+            e.currentTarget.style.borderColor = '#f39c12';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.borderColor = '#4e73df';
+          }}
+        />
+        <span className="fs-5 fw-bold text-white">{characterName}</span>
+      </div>
+
+      <button
+        className="btn p-0 text-white"
+        onClick={toggleSettings}
+        style={{
+          fontSize: '1.5rem',
+          transition: 'transform 0.3s ease, color 0.3s ease',
+          border: 'none',
+          background: 'none',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+      >
+        <FaCog />
+      </button>
+
+      <Modal
+        isOpen={isSettingsOpen}
+        onRequestClose={toggleSettings}
+        contentLabel="Settings Sidebar"
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 10,
+          },
+          content: {
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            height: '100%',
+            width: '300px',
+            background: '#2a2a2a',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '0',
+            padding: '20px',
+            transition: 'transform 0.3s ease-in-out',
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+          },
+        }}
+        shouldCloseOnOverlayClick={true}
+      >
+        <div className="d-flex flex-column h-100">
+          <div className="d-flex justify-content-between align-items-center">
+            <h4 className="text-white">Settings</h4>
+            <button
+              onClick={toggleSettings}
+              className="btn btn-link text-white p-0"
+              style={{ fontSize: '1.5rem' }}
+            >
+              ✖
+            </button>
+          </div>
+          <div className="mt-4">
+            <p>Settings options will be available soon.</p>
           </div>
         </div>
+      </Modal>
+    </div>
+        </div>
+
 
         <div
           className="flex-grow-1 p-3 overflow-auto animate__animated animate__fadeIn"
@@ -249,7 +328,7 @@ const handleSubmitWrapper = async (e) => {
                   animation: 'fadeIn 0.3s ease',
                 }}
               >
-                {/* Render the message content as markdown */}
+
                 <ReactMarkdown>{message.content}</ReactMarkdown>
               </div>
             </div>
