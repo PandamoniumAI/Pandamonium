@@ -4,30 +4,34 @@ import './ExtraCss.css';
 import { GetCharacterId, GetCharacterdata, Api } from '../../Utils/dataSource';
 import errorimage from '../../assets/error.jpg';
 import Sidebar from '../Chat/Sidebar/Sidebar';
+import ReactMarkdown from 'react-markdown';
 
 export default function Chat() {
   const [messageList, setMessageList] = useState([
     { role: 'system', content: '' }
   ]);
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messageList]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [character, setCharacter] = useState(null);
   const [firstMessageSent, setFirstMessageSent] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const fetchCharacterDataFromAPI = async () => {
-    try {
-      const id = await GetCharacterId();
-      if (!id || isNaN(parseInt(id, 10))) {
-        throw new Error("Invalid or undefined character ID");
-      }
-      return id;
-    } catch (error) {
-      console.error('Error fetching character ID:', error);
+  const fetchCharacterDataFromAPI = () => {
+    const pathSegments = window.location.pathname.split('/');
+    const characterId = pathSegments[pathSegments.length - 1];
+    if (!characterId || isNaN(parseInt(characterId, 10))) {
+      console.error('Invalid or undefined character ID in URL');
       return null;
     }
+    return characterId;
   };
-
   useEffect(() => {
     const fetchCharacterData = async () => {
       try {
@@ -35,7 +39,14 @@ export default function Chat() {
         if (!id) return;
   
         const data = await GetCharacterdata(id);
-        const decodedData = JSON.parse(atob(data.data));
+        if (!data?.data) return;
+  
+        let decodedData;
+        try {
+          decodedData = JSON.parse(atob(data.data));
+        } catch {
+          return;
+        }
   
         const imageUrl = decodedData.photo || errorimage;
   
@@ -45,7 +56,7 @@ export default function Chat() {
           if (!imageResponse.ok) throw new Error('Image fetch failed');
           const imageBlob = await imageResponse.blob();
           imageObjectURL = URL.createObjectURL(imageBlob);
-        } catch (imageError) {
+        } catch {
           imageObjectURL = errorimage;
         }
   
@@ -65,8 +76,8 @@ export default function Chat() {
           ...prevMessages,
           { role: 'system', content: parsedCharacter.firstMessage },
         ]);
-      } catch (error) {
-        console.error('Error fetching character data:', error);
+      } catch {
+        console.error('Error fetching character data ERROR: 558');
       }
     };
   
@@ -78,6 +89,8 @@ export default function Chat() {
       }
     };
   }, []);
+  
+  
   
 
 const characterImage = character?.image || errorimage;
@@ -153,145 +166,183 @@ const handleSubmitWrapper = async (e) => {
 
   return (
 <div className="d-flex h-100 bg-dark text-white overflow-hidden" style={{ height: '100vh' }}>
-    <Sidebar/>
-  <div
-    className="d-flex flex-column h-100 flex-grow-1"
-    style={{
-      transition: 'margin-left 0.3s ease',
-      marginLeft: '240px',
-    }}
-    id="chatContainer"
-  >
-    <div
-      className="p-3 border-bottom border-secondary d-flex justify-content-between align-items-center bg-gradient"
-      style={{
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
-        backgroundColor: '#1a2d4d',
-        borderTopLeftRadius: '20px',
-        borderTopRightRadius: '20px',
-      }}
-    >
-      <div className="d-flex align-items-center gap-3">
-        <img
-          src={characterImage}
-          alt={characterName}
-          className="rounded-circle"
-          onClick={() => alert('Character Info Coming Soon!')}
+      <Sidebar />
+      <div
+        className="d-flex flex-column h-100 flex-grow-1"
+        id="chatContainer"
+        ref={chatContainerRef} 
+        style={{
+          transition: 'margin-left 0.3s ease, box-shadow 0.3s ease',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+          borderRadius: '10px',
+          overflow: 'hidden',
+          boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.3)',
+        }}
+      >
+        <div
+          className="p-3 border-bottom border-secondary d-flex justify-content-between align-items-center bg-gradient animate__animated animate__fadeIn"
           style={{
-            width: '40px',
-            height: '40px',
-            cursor: 'pointer',
-            border: '2px solid #4e73df',
-            padding: '2px',
+            backgroundColor: '#1a2d4d',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px',
+            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
           }}
-        />
-        <span className="fs-5 fw-bold text-white">{characterName}</span>
+        >
+          <div className="d-flex align-items-center gap-3">
+            <img
+              src={characterImage}
+              alt={characterName}
+              className="rounded-circle"
+              onClick={() => alert('Character Info Coming Soon!')}
+              style={{
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+                border: '2px solid #4e73df',
+                padding: '2px',
+                transition: 'transform 0.3s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            />
+            <span className="fs-5 fw-bold text-white">{characterName}</span>
+          </div>
+        </div>
+
+        <div
+          className="flex-grow-1 p-3 overflow-auto animate__animated animate__fadeIn"
+          style={{
+            height: 'calc(100vh - 160px)', 
+            width: '100%',
+            borderRadius: '10px',
+            backgroundColor: '#1b2a3d',
+            overflowY: 'auto',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(255,255,255,0.2) transparent',
+            boxShadow: 'inset 0px 4px 6px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          {messageList.map((message, index) => (
+            <div
+              key={index}
+              className={`d-flex flex-column ${message.role === 'user' ? 'align-items-end' : 'align-items-start'} mb-3 animate__animated animate__fadeIn`}
+            >
+              {message.role !== 'user' && (
+                <div className="d-flex align-items-center mb-2">
+                  <img
+                    src={characterImage}
+                    alt={characterName}
+                    className="rounded-circle"
+                    style={{ width: '36px', height: '36px' }}
+                  />
+                  <span className="fw-semibold text-white ms-2">{characterName}</span>
+                </div>
+              )}
+              <div
+                className={`d-flex flex-column p-3 rounded-lg shadow-sm ${message.role === 'user' ? 'bg-primary text-white align-self-end' : 'bg-secondary text-white align-self-start'}`}
+                style={{
+                  maxWidth: '70%',
+                  minWidth: '160px',
+                  borderRadius: '20px',
+                  boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
+                  animation: 'fadeIn 0.3s ease',
+                }}
+              >
+                {/* Render the message content as markdown */}
+                <ReactMarkdown>{message.content}</ReactMarkdown>
+              </div>
+            </div>
+          ))}
+
+          {isTyping && (
+            <div className="d-flex justify-content-start mb-4 animate__animated animate__fadeIn">
+              <div
+                className="bg-secondary text-white p-3 rounded-lg shadow-sm"
+                style={{
+                  maxWidth: '50%',
+                  minWidth: '200px',
+                  borderRadius: '20px',
+                  animation: 'pulseTyping 1.5s infinite',
+                }}
+              >
+                <span className="text-muted" style={{ fontSize: '14px' }}>
+                  <span className="animate-pulse">...</span> Red Llama 1.0 is typing...
+                </span>
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        <form
+          onSubmit={handleSubmitWrapper}
+          className="p-3 border-top border-secondary d-flex align-items-center bg-dark rounded-bottom"
+          style={{
+            backgroundColor: '#222',
+            position: 'relative',
+            zIndex: 2,
+            paddingBottom: '20px',
+          }}
+        >
+          <button
+            type="button"
+            className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm"
+            style={{
+              transition: 'transform 0.3s ease',
+              marginRight: '8px',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <FaImage className="h-6 w-6" />
+            <span className="visually-hidden">Upload Image</span>
+          </button>
+          <button
+            type="button"
+            className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm"
+            style={{
+              transition: 'transform 0.3s ease',
+              marginRight: '8px',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <FaSmile className="h-6 w-6" />
+            <span className="visually-hidden">Emoji</span>
+          </button>
+          <input
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Type your message..."
+            className="flex-grow-1 bg-dark text-white border-0 p-3 rounded-pill shadow-sm animate__animated animate__fadeIn"
+            style={{
+              fontSize: '16px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
+              borderRadius: '30px',
+              transition: 'box-shadow 0.2s ease-in-out',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+            }}
+          />
+          <button
+            type="submit"
+            className="btn btn-primary h-10 w-10 d-flex justify-content-center align-items-center shadow-sm rounded-circle"
+            disabled={isTyping || !input}
+            style={{
+              fontSize: '18px',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <FaPaperPlane className="h-6 w-6" />
+            <span className="visually-hidden">Send</span>
+          </button>
+        </form>
       </div>
     </div>
 
-    <div
-      className="flex-grow-1 p-3 overflow-auto"
-      style={{
-        height: 'calc(100vh - 160px)',
-        width: '100%',
-        borderRadius: '10px',
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'rgba(255,255,255,0.2) transparent',
-      }}
-    >
-      {messageList.map((message, index) => (
-        <div
-          key={index}
-          className={`d-flex flex-column ${message.role === 'user' ? 'align-items-end' : 'align-items-start'} mb-3`}
-        >
-          {message.role !== 'user' && (
-            <div className="d-flex align-items-center mb-2">
-              <img
-                src={characterImage}
-                alt={characterName}
-                className="rounded-circle"
-                style={{ width: '36px', height: '36px' }}
-              />
-              <span className="fw-semibold text-white ms-2">{characterName}</span>
-            </div>
-          )}
-          <div
-            className={`d-flex flex-column p-3 rounded-lg shadow-sm ${message.role === 'user' ? 'bg-primary text-white align-self-end' : 'bg-secondary text-white align-self-start'}`}
-            style={{
-              maxWidth: '70%',
-              minWidth: '160px',
-              borderRadius: '20px',
-              boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
-              animation: 'fadeIn 0.3s ease',
-            }}
-          >
-            {message.content}
-          </div>
-        </div>
-      ))}
-
-      {isTyping && (
-        <div className="d-flex justify-content-start mb-4">
-          <div
-            className="bg-secondary text-white p-3 rounded-lg shadow-sm"
-            style={{
-              maxWidth: '50%',
-              minWidth: '200px',
-              borderRadius: '20px',
-              animation: 'pulseTyping 1.5s infinite',
-            }}
-          >
-            <span className="text-muted" style={{ fontSize: '14px' }}>
-              <span className="animate-pulse">...</span> Red Llama 1.0 is typing...
-            </span>
-          </div>
-        </div>
-      )}
-
-      <div ref={messagesEndRef} />
-    </div>
-
-    <form
-      onSubmit={handleSubmitWrapper}
-      className="p-3 border-top border-secondary d-flex align-items-center"
-      style={{ backgroundColor: '#222', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px' }}
-    >
-      <button type="button" className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm">
-        <FaImage className="h-6 w-6" />
-        <span className="visually-hidden">Upload Image</span>
-      </button>
-      <button type="button" className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm">
-        <FaSmile className="h-6 w-6" />
-        <span className="visually-hidden">Emoji</span>
-      </button>
-      <input
-        value={input}
-        onChange={handleInputChange}
-        placeholder="Type your message..."
-        className="flex-grow-1 bg-dark text-white border-0 p-3 rounded-pill shadow-sm"
-        style={{
-          fontSize: '16px',
-          paddingLeft: '20px',
-          paddingRight: '20px',
-          transition: 'box-shadow 0.2s ease-in-out',
-        }}
-      />
-      <button
-        type="submit"
-        className="btn btn-primary h-10 w-10 d-flex justify-content-center align-items-center shadow-sm rounded-circle"
-        disabled={isTyping || !input}
-        style={{
-          fontSize: '18px',
-          transition: 'transform 0.2s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-      >
-        <FaPaperPlane className="h-6 w-6" />
-        <span className="visually-hidden">Send</span>
-      </button>
-    </form>
-  </div>
-</div>
   );
 }

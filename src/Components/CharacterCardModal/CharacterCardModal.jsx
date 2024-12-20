@@ -1,23 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../CSS/CharacterCardModal.css";
-import { GetCharacterId } from "../../Utils/dataSource";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const CharacterCardModal = ({ character, onClose }) => {
-  const [characterId, setCharacterId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const expandedDesc = character.description;
 
-  useEffect(() => {
-    const fetchCharacterId = async () => {
-      try {
-        const id = await GetCharacterId();
-        setCharacterId(id);
-      } catch (error) {
-        console.error("Error fetching character ID:", error);
-      }
-    };
-    fetchCharacterId();
-  }, []);
+  const handleStartChatting = async () => {
+    setIsLoading(true);
+    try {
+      navigate(`/chat/${encodeURIComponent(character.id)}`, { state: { character } });
+    } catch (error) {
+      console.error("Error navigating to chat:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -26,13 +25,13 @@ const CharacterCardModal = ({ character, onClose }) => {
         <div className="modal-content">
           <h2 className="modal-title">{character.name}</h2>
           <p className="modal-desc">{expandedDesc}</p>
-          <Link
-            to={`/chat/${encodeURIComponent(character.id)}`}
-            state={{ character }}
+          <button
+            onClick={handleStartChatting}
             className="modal-btn"
+            disabled={isLoading}
           >
-            Start Chatting
-          </Link>
+            {isLoading ? "Loading..." : "Start Chatting"}
+          </button>
         </div>
       </div>
     </div>

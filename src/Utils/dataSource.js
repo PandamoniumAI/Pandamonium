@@ -38,13 +38,19 @@ export const GetCharacterdata = async (id) => {
     throw error;
   }
 };
-
 export const Api = {
-  generate: async () => {
+  generate: async (prompt) => {
     try {
       const response = await fetch(API_ENDPOINTS.GENERATE, {
-        method: "GET",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt })
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       return await response.json();
     } catch (error) {
       console.error("Error generating:", error);
