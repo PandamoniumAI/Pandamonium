@@ -175,33 +175,39 @@ const toggleSettings = () => setIsSettingsOpen(!isSettingsOpen);
   
   if (!character) return <div>Loading...</div>;
 
+const generateId = () => `chat_${character?.id || 'unknown'}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+const storedId = localStorage.getItem('persistentChatId');
+if (!storedId) {
+  const newId = generateId();
+  localStorage.setItem('persistentChatId', newId);
+}
+const id = storedId || localStorage.getItem('persistentChatId');
+
   return (
 <div className="d-flex h-100 bg-dark text-white overflow-hidden" style={{ height: '100vh' }}>
-      <Sidebar />
-      <div
-        className="d-flex flex-column h-100 flex-grow-1"
-        id="chatContainer"
-        ref={chatContainerRef} 
-        style={{
-          transition: 'margin-left 0.3s ease, box-shadow 0.3s ease',
-          paddingLeft: '20px',
-          paddingRight: '20px',
-          borderRadius: '10px',
-          overflow: 'hidden',
-          boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.3)',
-        }}
-      >
-        <div
-          className="p-3 border-bottom border-secondary d-flex justify-content-between align-items-center bg-gradient animate__animated animate__fadeIn"
-          style={{
-            backgroundColor: '#1a2d4d',
-            borderTopLeftRadius: '20px',
-            borderTopRightRadius: '20px',
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
-          }}
-        >
-
-<div className="d-flex align-items-center justify-content-between w-100 p-3">
+  <Sidebar />
+  <div
+    className="d-flex flex-column h-100 flex-grow-1"
+    id="chatContainer"
+    ref={chatContainerRef}
+    style={{
+      transition: 'margin-left 0.3s ease, box-shadow 0.3s ease',
+      paddingLeft: '20px',
+      paddingRight: '20px',
+      borderRadius: '10px',
+      boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.3)',
+      overflow: 'hidden',
+    }}
+  >
+    <div
+      className="p-3 border-bottom border-secondary d-flex justify-content-between align-items-center bg-gradient animate__animated animate__fadeIn"
+      style={{
+        backgroundColor: '#1a2d4d',
+        borderTopLeftRadius: '20px',
+        borderTopRightRadius: '20px',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
+      }}
+    >
       <div className="d-flex align-items-center gap-3">
         <img
           src={characterImage}
@@ -286,142 +292,161 @@ const toggleSettings = () => setIsSettingsOpen(!isSettingsOpen);
         </div>
       </Modal>
     </div>
-        </div>
 
-
-        <div
-          className="flex-grow-1 p-3 overflow-auto animate__animated animate__fadeIn"
-          style={{
-            height: 'calc(100vh - 160px)', 
-            width: '100%',
-            borderRadius: '10px',
-            backgroundColor: '#1b2a3d',
-            overflowY: 'auto',
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgba(255,255,255,0.2) transparent',
-            boxShadow: 'inset 0px 4px 6px rgba(0, 0, 0, 0.1)',
-          }}
-        >
-          {messageList.map((message, index) => (
+    <div
+      className="flex-grow-1 p-3 overflow-auto animate__animated animate__fadeIn"
+      style={{
+        height: 'calc(100vh - 160px)',
+        width: '100%',
+        borderRadius: '10px',
+        backgroundColor: '#1b2a3d',
+        overflowY: 'auto',
+        scrollbarWidth: 'thin',
+        scrollbarColor: 'rgba(255,255,255,0.2) transparent',
+        boxShadow: 'inset 0px 4px 6px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      {messageList.map((message, index) => {
+        if (message.role !== 'user') {
+          localStorage.setItem('botMessage', JSON.stringify(message));
+        }
+        return (
+          <div
+            key={index}
+            className={`d-flex flex-column ${message.role === 'user' ? 'align-items-end' : 'align-items-start'} mb-3 animate__animated animate__fadeIn`}
+          >
+            {message.role !== 'user' && (
+              <div className="d-flex align-items-center mb-2">
+                <img
+                  src={characterImage}
+                  alt={characterName}
+                  className="rounded-circle"
+                  style={{ width: '36px', height: '36px' }}
+                />
+                <span className="fw-semibold text-white ms-2">{characterName}</span>
+              </div>
+            )}
             <div
-              key={index}
-              className={`d-flex flex-column ${message.role === 'user' ? 'align-items-end' : 'align-items-start'} mb-3 animate__animated animate__fadeIn`}
+              className={`d-flex flex-column p-3 rounded-lg shadow-sm ${message.role === 'user' ? 'bg-primary text-white align-self-end' : 'bg-secondary text-white align-self-start'}`}
+              style={{
+                maxWidth: '70%',
+                minWidth: '160px',
+                borderRadius: '20px',
+                boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
+                animation: 'fadeIn 0.3s ease',
+              }}
             >
-              {message.role !== 'user' && (
-                <div className="d-flex align-items-center mb-2">
-                  <img
-                    src={characterImage}
-                    alt={characterName}
-                    className="rounded-circle"
-                    style={{ width: '36px', height: '36px' }}
-                  />
-                  <span className="fw-semibold text-white ms-2">{characterName}</span>
-                </div>
-              )}
-              <div
-                className={`d-flex flex-column p-3 rounded-lg shadow-sm ${message.role === 'user' ? 'bg-primary text-white align-self-end' : 'bg-secondary text-white align-self-start'}`}
-                style={{
-                  maxWidth: '70%',
-                  minWidth: '160px',
-                  borderRadius: '20px',
-                  boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
-                  animation: 'fadeIn 0.3s ease',
-                }}
-              >
-
-                <ReactMarkdown>{message.content}</ReactMarkdown>
-              </div>
+              <ReactMarkdown>{message.content}</ReactMarkdown>
             </div>
-          ))}
+          </div>
+        );
+      })}
 
-          {isTyping && (
-            <div className="d-flex justify-content-start mb-4 animate__animated animate__fadeIn">
-              <div
-                className="bg-secondary text-white p-3 rounded-lg shadow-sm"
-                style={{
-                  maxWidth: '50%',
-                  minWidth: '200px',
-                  borderRadius: '20px',
-                  animation: 'pulseTyping 1.5s infinite',
-                }}
-              >
-                <span className="text-muted" style={{ fontSize: '14px' }}>
-                  <span className="animate-pulse">...</span> Red Llama 1.0 is typing...
-                </span>
-              </div>
-            </div>
-          )}
-
-          <div ref={messagesEndRef} />
+      {isTyping && (
+        <div className="d-flex justify-content-start mb-4 animate__animated animate__fadeIn">
+          <div
+            className="bg-secondary text-white p-3 rounded-lg shadow-sm"
+            style={{
+              maxWidth: '50%',
+              minWidth: '200px',
+              borderRadius: '20px',
+              animation: 'pulseTyping 1.5s infinite',
+            }}
+          >
+            <span className="text-muted" style={{ fontSize: '14px' }}>
+              <span className="animate-pulse">...</span> {characterName} is typing...
+            </span>
+          </div>
         </div>
+      )}
 
-        <form
-          onSubmit={handleSubmitWrapper}
-          className="p-3 border-top border-secondary d-flex align-items-center bg-dark rounded-bottom"
-          style={{
-            backgroundColor: '#222',
-            position: 'relative',
-            zIndex: 2,
-            paddingBottom: '20px',
-          }}
-        >
-          <button
-            type="button"
-            className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm"
-            style={{
-              transition: 'transform 0.3s ease',
-              marginRight: '8px',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <FaImage className="h-6 w-6" />
-            <span className="visually-hidden">Upload Image</span>
-          </button>
-          <button
-            type="button"
-            className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm"
-            style={{
-              transition: 'transform 0.3s ease',
-              marginRight: '8px',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <FaSmile className="h-6 w-6" />
-            <span className="visually-hidden">Emoji</span>
-          </button>
-          <input
-            value={input}
-            onChange={handleInputChange}
-            placeholder="Type your message..."
-            className="flex-grow-1 bg-dark text-white border-0 p-3 rounded-pill shadow-sm animate__animated animate__fadeIn"
-            style={{
-              fontSize: '16px',
-              paddingLeft: '20px',
-              paddingRight: '20px',
-              borderRadius: '30px',
-              transition: 'box-shadow 0.2s ease-in-out',
-              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-            }}
-          />
-          <button
-            type="submit"
-            className="btn btn-primary h-10 w-10 d-flex justify-content-center align-items-center shadow-sm rounded-circle"
-            disabled={isTyping || !input}
-            style={{
-              fontSize: '18px',
-              transition: 'transform 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <FaPaperPlane className="h-6 w-6" />
-            <span className="visually-hidden">Send</span>
-          </button>
-        </form>
-      </div>
+      <div ref={messagesEndRef} />
     </div>
+
+    <form
+      onSubmit={handleSubmitWrapper}
+      className="p-3 border-top border-secondary d-flex align-items-center bg-dark rounded-bottom"
+      style={{
+        backgroundColor: '#222',
+        position: 'relative',
+        zIndex: 2,
+        paddingBottom: '20px',
+      }}
+    >
+      <button
+        type="button"
+        className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm"
+        style={{
+          transition: 'transform 0.3s ease',
+          marginRight: '8px',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+      >
+        <FaImage className="h-6 w-6" />
+        <span className="visually-hidden">Upload Image</span>
+      </button>
+      <button
+        type="button"
+        className="btn btn-light h-10 w-10 me-2 rounded-circle shadow-sm"
+        style={{
+          transition: 'transform 0.3s ease',
+          marginRight: '8px',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+      >
+        <FaSmile className="h-6 w-6" />
+        <span className="visually-hidden">Emoji</span>
+      </button>
+      <input
+        value={input}
+        onChange={handleInputChange}
+        placeholder="Type your message..."
+        className="flex-grow-1 bg-dark text-white border-0 p-3 rounded-pill shadow-sm animate__animated animate__fadeIn"
+        style={{
+          fontSize: '16px',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+          borderRadius: '30px',
+          transition: 'box-shadow 0.2s ease-in-out',
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+        }}
+      />
+<button
+  type="submit"
+  className="btn btn-primary h-10 w-10 d-flex justify-content-center align-items-center shadow-sm rounded-circle"
+  disabled={isTyping || !input}
+  style={{
+    fontSize: '18px',
+    transition: 'transform 0.2s ease',
+  }}
+  onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+  onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+  onClick={() => {
+    const userMessage = input.trim();
+    if (userMessage !== "") {
+      const checkAndSaveMessage = () => {
+        const botMessage = JSON.parse(localStorage.getItem('botMessage'));
+        if (botMessage && botMessage.content) {
+          import('./Saving/Saving').then(module => {
+            const data = { id: id, characterMessage: botMessage.content, userMessage };
+            module.saveMessage(data);
+          });
+        } else {
+          setTimeout(checkAndSaveMessage, 100);
+        }
+      };
+      checkAndSaveMessage();
+    }
+  }}>
+        <FaPaperPlane className="h-6 w-6" />
+        <span className="visually-hidden">Send</span>
+      </button>
+    </form>
+  </div>
+</div>
+
 
   );
 }
