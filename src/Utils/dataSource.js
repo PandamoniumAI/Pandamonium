@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '../config/api.config.js';
+import { API_ENDPOINTS } from "../config/api.config.js";
 
 export const CharacterId = async () => {
   try {
@@ -8,6 +8,21 @@ export const CharacterId = async () => {
     return await response.json();
   } catch (error) {
     console.error("Error creating character ID:", error);
+    throw error;
+  }
+};
+
+export const getMessages = async (characterId, chatId) => {
+  try {
+    const response = await fetch(
+      `${API_ENDPOINTS.GET_MESSAGES}${characterId}/${chatId}`,
+      {
+        method: "GET",
+      },
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting messages:", error);
     throw error;
   }
 };
@@ -44,9 +59,9 @@ export const Api = {
       const response = await fetch(API_ENDPOINTS.GENERATE, {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt })
+        body: JSON.stringify({ prompt }),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -56,5 +71,5 @@ export const Api = {
       console.error("Error generating:", error);
       throw error;
     }
-  }
+  },
 };

@@ -7,31 +7,26 @@ const CharacterCardModal = ({ character, onClose }) => {
   const navigate = useNavigate();
   const expandedDesc = character.description;
 
-  const handleStartChatting = async () => {
-    setIsLoading(true);
-    try {
-      navigate(`/chat/${encodeURIComponent(character.id)}`, { state: { character } });
-    } catch (error) {
-      console.error("Error navigating to chat:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="character-modal" onClick={(e) => e.stopPropagation()}>
-        <img className="character-image" src={character.photo} alt={character.name} />
+        <img
+          className="character-image"
+          src={character.photo}
+          alt={character.name}
+        />
         <div className="modal-content">
           <h2 className="modal-title">{character.name}</h2>
           <p className="modal-desc">{expandedDesc}</p>
-          <button
-            onClick={handleStartChatting}
+          <Link
             className="modal-btn"
-            disabled={isLoading}
+            to={{
+              pathname: `/chat/${character.id}`,
+            }}
+            style={{ textDecoration: "none" }}
           >
-            {isLoading ? "Loading..." : "Start Chatting"}
-          </button>
+            Start Chatting
+          </Link>
         </div>
       </div>
     </div>

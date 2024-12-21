@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from "react-responsive";
 import { FetchCharacters } from "../../Utils/Utils";
 import SearchBar from "../SearchBar/SearchBar";
 import CharacterCard from "../CharacterCard/CharacterCard";
@@ -20,7 +20,7 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 15;
-  
+
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const HomePage = () => {
       setIsLoading(false);
     };
 
-    fetchCharacters();
+    fetchCharacters(); // Ensure this is not being called repeatedly
   }, []);
 
   const closeModal = () => {
@@ -51,15 +51,16 @@ const HomePage = () => {
   };
 
   const handleSearch = (query) => {
-    const filtered = characters.filter((character) =>
-    character.name.toLowerCase().includes(query.toLowerCase()) ||
-    character.description.toLowerCase().includes(query.toLowerCase()) ||
-    character.tag.toLowerCase().includes(query.toLowerCase())
+    const filtered = characters.filter(
+      (character) =>
+        character.name.toLowerCase().includes(query.toLowerCase()) ||
+        character.description.toLowerCase().includes(query.toLowerCase()) ||
+        character.tag.toLowerCase().includes(query.toLowerCase()),
     );
     setFilteredCharacters(filtered);
     setCurrentPage(0);
     setSearchQuery(query);
-    };
+  };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -69,14 +70,15 @@ const HomePage = () => {
     }
   };
 
-  const paginatedCharacters = (filteredCharacters.length > 0 ? filteredCharacters : characters).slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
+  const paginatedCharacters = (
+    filteredCharacters.length > 0 ? filteredCharacters : characters
+  ).slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
   const hasMorePages =
     (currentPage + 1) * itemsPerPage <
-    (filteredCharacters.length > 0 ? filteredCharacters.length : characters.length);
+    (filteredCharacters.length > 0
+      ? filteredCharacters.length
+      : characters.length);
 
   const handleNextPage = () => {
     if (hasMorePages) {
@@ -85,13 +87,13 @@ const HomePage = () => {
   };
 
   const updateTagsDropdownPosition = useCallback(() => {
-    const tagsDropdown = document.getElementById('tagsDropdown');
-    const Searchbar = document.getElementById('Searchbar');
+    const tagsDropdown = document.getElementById("tagsDropdown");
+    const Searchbar = document.getElementById("Searchbar");
     if (tagsDropdown && Searchbar) {
       const tagsDropdownRect = tagsDropdown.getBoundingClientRect();
       const searchbarRect = Searchbar.getBoundingClientRect();
 
-      tagsDropdown.style.position = 'absolute';
+      tagsDropdown.style.position = "absolute";
 
       if (window.innerWidth <= 768) {
         tagsDropdown.style.top = `${searchbarRect.bottom + 10}px`;
@@ -107,12 +109,15 @@ const HomePage = () => {
 
   useEffect(() => {
     updateTagsDropdownPosition();
-    window.addEventListener('resize', updateTagsDropdownPosition);
-    window.addEventListener('orientationchange', updateTagsDropdownPosition);
+    window.addEventListener("resize", updateTagsDropdownPosition);
+    window.addEventListener("orientationchange", updateTagsDropdownPosition);
 
     return () => {
-      window.removeEventListener('resize', updateTagsDropdownPosition);
-      window.removeEventListener('orientationchange', updateTagsDropdownPosition);
+      window.removeEventListener("resize", updateTagsDropdownPosition);
+      window.removeEventListener(
+        "orientationchange",
+        updateTagsDropdownPosition,
+      );
     };
   }, [updateTagsDropdownPosition]);
 
@@ -125,7 +130,9 @@ const HomePage = () => {
       <div className="container text-center mt-5">
         <div id="characters" className="character-grid">
           {isLoading
-            ? Array.from({ length: itemsPerPage }, (_, i) => <SkeletonCard key={i} />)
+            ? Array.from({ length: itemsPerPage }, (_, i) => (
+                <SkeletonCard key={i} />
+              ))
             : paginatedCharacters.map((character) => (
                 <CharacterCard
                   key={character.id}
@@ -147,10 +154,17 @@ const HomePage = () => {
       {!isMobile && <SideBar />}
 
       {showModal && selectedCharacter && (
-        <CharacterCardModal character={selectedCharacter} onClose={closeModal} />
+        <CharacterCardModal
+          character={selectedCharacter}
+          onClose={closeModal}
+        />
       )}
 
-      {isMobile && <div className="mobile-sidebar-container"><MobileSideBar /></div>}
+      {isMobile && (
+        <div className="mobile-sidebar-container">
+          <MobileSideBar />
+        </div>
+      )}
     </div>
   );
 };
