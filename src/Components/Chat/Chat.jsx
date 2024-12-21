@@ -27,6 +27,7 @@ export default function Chat() {
       content: "",
     },
   ]);
+
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function Chat() {
         chatContainerRef.current.scrollHeight;
     }
   }, [messageList]);
+  
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [character, setCharacter] = useState(null);
@@ -74,7 +76,7 @@ export default function Chat() {
           name: decodedData.name || "Unknown Character",
           description: decodedData.description || "No description available.",
           firstMessage:
-            decodedData.first_message || "Hello! How can I assist you today?",
+            decodedData.first_message || "Hello! How can I help you today?",//
           image: imageObjectURL,
           system: decodedData.system || "",
           modelInstructions: decodedData.model_instructions || "",
@@ -82,10 +84,12 @@ export default function Chat() {
         };
 
         setCharacter(parsedCharacter);
-        setMessageList((prevMessages) => [
-          ...prevMessages,
-          { role: "system", content: parsedCharacter.firstMessage },
-        ]);
+        if (!firstMessageSent) {
+          setMessageList((prevMessages) => [
+            { role: "system", content: parsedCharacter.firstMessage },
+          ]);
+          setFirstMessageSent(true);
+        }
       } catch {
         console.error("Error fetching character data ERROR: 558");
       }
@@ -210,12 +214,6 @@ export default function Chat() {
 
   if (!character) return <div>Loading...</div>;
 
-  const storedId = localStorage.getItem("persistentChatId");
-  if (!storedId) {
-    const newId = generateId();
-    localStorage.setItem("persistentChatId", newId);
-  }
-  const id = storedId || localStorage.getItem("persistentChatId");
 
   return (
     <div
@@ -502,4 +500,4 @@ export default function Chat() {
       </div>
     </div>
   );
-}
+};
