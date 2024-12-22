@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../CSS/Tags.css";
+import "./Tags.css";
 
 export default function Tags() {
   const [dropdownVisible, setDropdownVisible] = useState(false);

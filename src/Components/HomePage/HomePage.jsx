@@ -4,7 +4,7 @@ import { FetchCharacters } from "../../Utils/Utils";
 import SearchBar from "../SearchBar/SearchBar";
 import CharacterCard from "../CharacterCard/CharacterCard";
 import CharacterCardModal from "../CharacterCardModal/CharacterCardModal";
-import "../CSS/HomePage.css";
+import "./HomePage.css";
 import Footer from "../../assets/footer.png";
 import Tags from "../Tags/Tags.jsx";
 import SideBar from "../SideBar/SideBar.jsx";
@@ -92,11 +92,10 @@ const HomePage = () => {
       </div>
       <div className="search-bar-container fixed"></div>
       <div className="container text-center mt-5">
-      <div className="search-bar-wrapper">
+        <div className="search-bar-wrapper">
           <SearchBar id="search-input" onKeyPress={handleKeyPress} />
         </div>
         <div id="characters" className="character-grid panda-theme">
-          
           {isLoading
             ? Array.from({ length: itemsPerPage }, (_, i) => (
                 <SkeletonCard key={i} />
