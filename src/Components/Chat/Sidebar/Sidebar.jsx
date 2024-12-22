@@ -37,7 +37,7 @@ export default function Buttons() {
                     cursor: "pointer",
                     zIndex: 999,
                     transition: "left 0.6s ease, transform 0.3s ease",
-                    boxShadow: "none", // Removed shadow from the button
+                    boxShadow: "none",
                 }}
             >
                 <img

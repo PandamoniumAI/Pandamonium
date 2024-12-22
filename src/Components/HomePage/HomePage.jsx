@@ -85,50 +85,18 @@ const HomePage = () => {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
-
-  const updateTagsDropdownPosition = useCallback(() => {
-    const tagsDropdown = document.getElementById("tagsDropdown");
-    const Searchbar = document.getElementById("Searchbar");
-    if (tagsDropdown && Searchbar) {
-      const tagsDropdownRect = tagsDropdown.getBoundingClientRect();
-      const searchbarRect = Searchbar.getBoundingClientRect();
-
-      tagsDropdown.style.position = "absolute";
-
-      if (window.innerWidth <= 768) {
-        tagsDropdown.style.top = `${searchbarRect.bottom + 10}px`;
-      } else {
-        tagsDropdown.style.top = `${searchbarRect.top}px`;
-        tagsDropdown.style.left = `${searchbarRect.right + 10}px`;
-      }
-
-      tagsDropdown.style.width = `${searchbarRect.width}px`;
-      Searchbar.style.width = `${searchbarRect.width}px`;
-    }
-  }, []);
-
-  useEffect(() => {
-    updateTagsDropdownPosition();
-    window.addEventListener("resize", updateTagsDropdownPosition);
-    window.addEventListener("orientationchange", updateTagsDropdownPosition);
-
-    return () => {
-      window.removeEventListener("resize", updateTagsDropdownPosition);
-      window.removeEventListener(
-        "orientationchange",
-        updateTagsDropdownPosition,
-      );
-    };
-  }, [updateTagsDropdownPosition]);
-
   return (
     <div className="homepage-container">
-      <div className="search-bar-container">
-        <SearchBar id="search-input" onKeyPress={handleKeyPress} />
-        <Tags />
+      <div className="button-container">
+        <button className="discord-button">Join Our Discord Server!</button>
       </div>
+      <div className="search-bar-container fixed"></div>
       <div className="container text-center mt-5">
-        <div id="characters" className="character-grid">
+      <div className="search-bar-wrapper">
+          <SearchBar id="search-input" onKeyPress={handleKeyPress} />
+        </div>
+        <div id="characters" className="character-grid panda-theme">
+          
           {isLoading
             ? Array.from({ length: itemsPerPage }, (_, i) => (
                 <SkeletonCard key={i} />
@@ -145,8 +113,8 @@ const HomePage = () => {
               ))}
         </div>
         {!isLoading && hasMorePages && (
-          <button className="btn btn-primary mt-3" onClick={handleNextPage}>
-            Next
+          <button className="btn btn-orange mt-3" onClick={handleNextPage}>
+            Load More
           </button>
         )}
       </div>

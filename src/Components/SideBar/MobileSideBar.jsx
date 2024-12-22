@@ -6,20 +6,25 @@ import '../CSS/MobileSideBar.css';
 const MobileSideBar = () => {
   return (
     <nav className="mobile-sidebar">
-      <Link to="/profile" className="sidebar-icon">
+      <Link to="/profile" className="sidebar-icon" data-tooltip="Profile">
         <FaUser />
+        <span>Profile</span>
       </Link>
-      <Link to="/settings" className="sidebar-icon">
+      <Link to="/settings" className="sidebar-icon" data-tooltip="Settings">
         <FaCog />
+        <span>Settings</span>
       </Link>
-      <Link to="/help" className="sidebar-icon">
+      <Link to="/help" className="sidebar-icon" data-tooltip="Help">
         <FaQuestionCircle />
+        <span>Help</span>
       </Link>
-      <Link to="/create" className="sidebar-icon">
+      <Link to="/create" className="sidebar-icon" data-tooltip="Create">
         <FaPlusCircle />
+        <span>Create</span>
       </Link>
-      <Link to="/chat" className="sidebar-icon">
+      <Link to="/chat" className="sidebar-icon" data-tooltip="Chat">
         <FaComments />
+        <span>Chat</span>
       </Link>
     </nav>
   );

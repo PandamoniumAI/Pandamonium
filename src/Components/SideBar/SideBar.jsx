@@ -1,47 +1,13 @@
+import { useState } from "react";
 import "../CSS/SideBar.css";
 import { useEffect } from "react";
 
 export default function SideBar() {
-  useEffect(() => {
-    const toggleSidebarBtn = document.getElementById("toggleSidebar");
-    const sidebar = document.getElementById("sidebar");
-    const toggleIcon = document.getElementById("toggleIcon");
+  const [isExpanded, setIsExpanded] = useState(false);
 
-    const handleToggle = () => {
-      const isHidden = sidebar.classList.toggle('hidden');
-      toggleIcon.classList.toggle('bi-arrow-left');
-      toggleIcon.classList.toggle('bi-arrow-right');
-
-      const startPosition = isHidden ? 65 : 0;
-      const endPosition = isHidden ? 0 : 65;
-      const duration = 300;
-      const startTime = performance.now();
-
-      toggleSidebarBtn.style.opacity = isHidden ? 0.5 : 1;
-
-      const animate = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = 1 - Math.pow(1 - progress, 3);
-        const currentPosition = startPosition + (endPosition - startPosition) * easeProgress;
-        
-        toggleSidebarBtn.style.left = `${currentPosition}px`;
-        sidebar.style.transform = `translateX(${isHidden ? -100 : 0}%)`;
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      };
-
-      requestAnimationFrame(animate);
-    };
-
-    toggleSidebarBtn.addEventListener('click', handleToggle);
-
-    return () => {
-      toggleSidebarBtn.removeEventListener('click', handleToggle);
-    };
-  }, []);
+  const toggleSidebar = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   useEffect(() => {
     const settingsBtn = document.querySelector(".settings-btn");
@@ -212,17 +178,35 @@ export default function SideBar() {
   const toggleSettingsOverlayOff  = () => {
     hideOverlay();
   };
+
   return (
     <>
-      <div className="sidebar" id="sidebar">
-        <button
-          className="btn btn-light sidebar-btn"
-          onClick={togglePersonaMenu}
-          data-tooltip="Persona"
-        >
-          <i className="bi bi-person-circle"></i>
-        </button>
-        <div
+    <div className={`sidebar ${isExpanded ? "expanded" : ""}`}>
+      <div className="toggle-area" onClick={toggleSidebar}>
+        <i className={`bi ${isExpanded ? "bi-x-lg" : "bi-list"}`}></i>
+      </div>
+      <button className="btn sidebar-btn" data-tooltip="Persona" onClick={togglePersonaMenu}>
+        <i className="bi bi-person-circle"></i>
+        {isExpanded && <span>Persona</span>}
+      </button>
+      <button className="btn sidebar-btn" data-tooltip="Settings" onClick={() => setIsSettingsOpen(true)}>
+        <i className="bi bi-gear"></i>
+        {isExpanded && <span>Settings</span>}
+      </button>
+      <button className="btn sidebar-btn" onClick={() => (window.location.href = "guideline.html")} data-tooltip="Help">
+        <i className="bi bi-question-circle"></i>
+        {isExpanded && <span>Help</span>}
+      </button>
+      <button className="btn sidebar-btn" onClick={() => (window.location.href = "/Chats")} data-tooltip="Chats">
+        <i className="bi bi-chat"></i>
+        {isExpanded && <span>Chats</span>}
+      </button>
+      <button className="btn sidebar-btn create-btn" onClick={() => (window.location.href = "create.html")} data-tooltip="Create">
+        <i className="bi bi-plus-circle"></i>
+        {isExpanded && <span>Create</span>}
+      </button>
+    </div>
+    <div
           id="personaMenu"
           style={{
             display: "none",
@@ -304,97 +288,7 @@ export default function SideBar() {
             Submit
           </button>
         </div>
-        <button
-          className="btn btn-light sidebar-btn settings-btn"
-          data-tooltip="Settings"
-          onClick={showOverlay}
-        >
-          <i className="bi bi-gear"></i>
-        </button>
-        <button
-          className="btn btn-light sidebar-btn"
-          onClick={() => (window.location.href = "guideline.html")}
-          data-tooltip="Help/Guidelines"
-        >
-          <i className="bi bi-question-circle"></i>
-        </button>
-
-        <button
-          className="btn btn-primary sidebar-btn"
-          onClick={() => (window.location.href = "/Chats")}
-          data-tooltip="Chats"
-        >
-          <i className="bi bi-chat"></i>
-        </button>
-
-        <button
-          className="btn btn-light sidebar-btn"
-          id="createBtnFooter"
-          onClick={() => (window.location.href = "create.html")}
-          data-tooltip="Create"
-        >
-          <i className="bi bi-plus-circle"></i>
-        </button>
-      </div>
-      <button id="toggleSidebar" className="btn btn-primary toggle-btn">
-        <i className="bi bi-arrow-left" id="toggleIcon"></i>
-      </button>
-
-      <div id="settingsOverlay" className="settings-overlay">
-        <div className="settings-content settings-animate">
-          <button
-            className="close-btn"
-            style={{ color: "#fff" }}
-            onClick={toggleSettingsOverlayOff}
-          >
-            &times;
-          </button>
-          <div id="loggedInButtons" className="settings-buttons">
-            <button
-              className="btn btn-danger settings-btn"
-              onClick={handleLogout}
-            >
-              <i className="bi bi-box-arrow-right"></i>
-              Logout
-            </button>
-            <button
-              className="btn btn-primary settings-btn"
-              onClick={toggleHiddenTags}
-            >
-              <i className="bi bi-tags"></i>
-              Hidden Tags
-            </button>
-          </div>
-          <div id="loggedOutButtons" className="settings-buttons">
-            <button
-              className="btn btn-primary settings-btn"
-              onClick={() => (window.location.href = "/Login")}
-            >
-              <i className="bi bi-box-arrow-in-right"></i>
-              Login
-            </button>
-            <button
-              className="btn btn-success settings-btn"
-              onClick={() => (window.location.href = "/Register")}
-            >
-              <i className="bi bi-person-plus"></i>
-              Register
-            </button>
-          </div>
-          <div id="hiddenTagsSection" className="hidden-tags-section">
-            <input
-              type="text"
-              id="newTagInput"
-              placeholder="Add new tag"
-              className="tag-input"
-            />
-            <button onClick={addNewTag} className="btn btn-primary add-tag-btn">
-              Add Tag
-            </button>
-            <div className="tags-container" id="hiddenTagsList"></div>
-          </div>
-        </div>
-      </div>
+        
     </>
   );
 }

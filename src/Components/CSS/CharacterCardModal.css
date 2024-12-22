@@ -4,14 +4,9 @@
   left: 50%;
   z-index: 1000;
   transform: translate(-50%, -50%);
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.98),
-    rgba(20, 20, 20, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(20, 20, 20, 0.95));
   padding: 25px;
   border-radius: 20px;
-  z-index: 1000;
   width: 70%;
   max-width: 600px;
   max-height: 80vh;
@@ -51,7 +46,7 @@
 }
 
 .modal-btn {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, #d15f60, #9f4d47);
   color: white;
   border: none;
   padding: 12px 25px;
@@ -64,7 +59,7 @@
 
 .modal-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 5px 15px rgba(255, 105, 97, 0.6);
 }
 
 .modal-desc {
@@ -78,7 +73,7 @@
 }
 
 .modal-title {
-  color: #fff;
+  color: #d15f60;
   font-size: 2rem;
   margin-bottom: 15px;
   font-weight: 600;
