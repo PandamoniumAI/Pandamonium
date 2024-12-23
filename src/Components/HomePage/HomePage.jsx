@@ -1,19 +1,18 @@
-import React, { useEffect, useState, useCallback } from "react";
+import * as route from "../../routes/routes";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { FetchCharacters } from "../../Utils/Utils";
 import SearchBar from "../SearchBar/SearchBar";
 import CharacterCard from "../CharacterCard/CharacterCard";
 import CharacterCardModal from "../CharacterCardModal/CharacterCardModal";
+import ds from "../../Utils/dataSource";
 import "./HomePage.css";
-import Footer from "../../assets/footer.png";
-import Tags from "../Tags/Tags.jsx";
 import SideBar from "../SideBar/SideBar.jsx";
 import MobileSideBar from "../SideBar/MobileSideBar.jsx";
 import SkeletonCard from "../SkeletonCard/SkeletonCard";
-import Animal from "../../assets/animal.png";
 
 const HomePage = () => {
   const [characters, setCharacters] = useState([]);
+  const [displayCharacters, setDisplayCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -37,8 +36,10 @@ const HomePage = () => {
   useEffect(() => {
     const fetchCharacters = async () => {
       setIsLoading(true);
-      const data = await FetchCharacters();
+      const data = (await ds.get(route.CharacterRoute)).data;
+      console.log(data);
       setCharacters(data);
+      setFilteredCharacters(data);
       setIsLoading(false);
     };
 
@@ -97,10 +98,10 @@ const HomePage = () => {
         </div>
         <div id="characters" className="character-grid panda-theme">
           {isLoading
-            ? Array.from({ length: itemsPerPage }, (_, i) => (
+            ? Array.from({ length: paginatedCharacters.length }, (_, i) => (
                 <SkeletonCard key={i} />
               ))
-            : paginatedCharacters.map((character) => (
+            : filteredCharacters.map((character) => (
                 <CharacterCard
                   key={character.id}
                   character={character}
