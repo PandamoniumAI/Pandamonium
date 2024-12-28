@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.character-grid {
+  @apply flex justify-center gap-6 flex-wrap p-6;
+}
+
+.character-card {
+  @apply overflow-hidden w-[220px] h-[400px] relative bg-[#1e1e1e] rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl;
+}
+
+.character-image {
+  @apply w-full h-3/5 object-cover block rounded-t-lg;
+}
+
+.character-info {
+  @apply text-white flex flex-col justify-between p-4 bg-[#c62d01] rounded-b-lg h-2/5;
+}
+
+.character-name {
+  @apply text-lg font-bold mb-2 text-white;
+  font-size: 20px;
+}
+
+.character-preview {
+  @apply text-sm leading-normal mb-3;
+}
+
+.character-meta {
+  @apply flex justify-between text-xs text-[#f2f2f2] opacity-90 mt-3;
+}

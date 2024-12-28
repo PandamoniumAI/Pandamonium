@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'BalooDa2';
+    src: url('../assets/Fonts/BalooDa2-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
