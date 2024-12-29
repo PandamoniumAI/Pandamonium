@@ -48,3 +48,9 @@ temp/
 # React Cache/Logs
 .cache/
 
+# history
+.history
+
+# zipped
+.Pandamonium-74f6441f3f92dba49695fe472b78784eb7e33572.zip
+.zip
