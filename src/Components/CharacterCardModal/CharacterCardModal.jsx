@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./CharacterCardModal.css";
+import "../CSS/CharacterCardModal.css";
 import { useState } from "react";
 
 const CharacterCardModal = ({ character, onClose }) => {

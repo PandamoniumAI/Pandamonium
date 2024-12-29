@@ -1,13 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import {
-  FaUser,
-  FaCog,
-  FaQuestionCircle,
-  FaPlusCircle,
-  FaComments,
-} from "react-icons/fa";
-import "./MobileSideBar.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaUser, FaCog, FaQuestionCircle, FaPlusCircle, FaComments } from 'react-icons/fa';
+import '../CSS/MobileSideBar.css';
 
 const MobileSideBar = () => {
   return (

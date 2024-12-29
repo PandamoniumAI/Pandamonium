@@ -1,14 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { FaPaperPlane, FaImage, FaSmile, FaHome, FaCog } from "react-icons/fa";
 import "./ExtraCss.css";
+import {
+  GetCharacterId,
+  GetCharacterdata,
+  Api,
+  getMessages,
+} from "../../Utils/dataSource";
 import { useParams } from "react-router-dom";
-import ds from "../../Utils/dataSource";
-import * as routes from "../../routes/routes";
 import errorimage from "../../assets/error.jpg";
 import Sidebar from "../Chat/Sidebar/Sidebar";
 import ReactMarkdown from "react-markdown";
 import Modal from "react-modal";
 import { useSearchParams } from "react-router-dom";
+Modal.setAppElement("#root");
 export default function Chat() {
   const { characterId } = useParams();
   const [params] = useSearchParams();
@@ -31,7 +36,7 @@ export default function Chat() {
         chatContainerRef.current.scrollHeight;
     }
   }, [messageList]);
-
+  
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [character, setCharacter] = useState(null);
@@ -43,12 +48,13 @@ export default function Chat() {
       try {
         const id = characterId;
         if (!id) return;
-        const data = await ds.get(`${routes.CharacterRoute}/${id}`);
+
+        const data = await GetCharacterdata(id);
         if (!data?.data) return;
 
         let decodedData;
         try {
-          decodedData = data.data;
+          decodedData = JSON.parse(atob(data.data));
         } catch {
           return;
         }
@@ -70,7 +76,7 @@ export default function Chat() {
           name: decodedData.name || "Unknown Character",
           description: decodedData.description || "No description available.",
           firstMessage:
-            decodedData.first_message || "Hello! How can I help you today?", //
+            decodedData.first_message || "Hello! How can I help you today?",//
           image: imageObjectURL,
           system: decodedData.system || "",
           modelInstructions: decodedData.model_instructions || "",
@@ -103,7 +109,7 @@ export default function Chat() {
       const id = chatId;
       if (!id) return;
 
-      const response = await ds.get(`${routes.ChatRoute}/${id}`);
+      const response = await getMessages(characterId, id);
       if (!response.ok) throw new Error("API request failed");
 
       const result = await response.json();
@@ -207,6 +213,7 @@ export default function Chat() {
   };
 
   if (!character) return <div>Loading...</div>;
+
 
   return (
     <div
@@ -493,4 +500,4 @@ export default function Chat() {
       </div>
     </div>
   );
-}
+};

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import "./CharacterCard.css";
+import "../CSS/CharacterCard.css";
 import PlaceholderImage from "../../assets/error.jpg";
 
 const CharacterCard = ({ character, onClick }) => {

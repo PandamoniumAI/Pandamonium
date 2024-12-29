@@ -1,18 +1,19 @@
-import * as route from "../../routes/routes";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useMediaQuery } from "react-responsive";
+import { FetchCharacters } from "../../Utils/Utils";
 import SearchBar from "../SearchBar/SearchBar";
 import CharacterCard from "../CharacterCard/CharacterCard";
 import CharacterCardModal from "../CharacterCardModal/CharacterCardModal";
-import ds from "../../Utils/dataSource";
-import "./HomePage.css";
+import "../CSS/HomePage.css";
+import Footer from "../../assets/footer.png";
+import Tags from "../Tags/Tags.jsx";
 import SideBar from "../SideBar/SideBar.jsx";
 import MobileSideBar from "../SideBar/MobileSideBar.jsx";
 import SkeletonCard from "../SkeletonCard/SkeletonCard";
+import Animal from "../../assets/animal.png";
 
 const HomePage = () => {
   const [characters, setCharacters] = useState([]);
-  const [displayCharacters, setDisplayCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -36,10 +37,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchCharacters = async () => {
       setIsLoading(true);
-      const data = (await ds.get(route.CharacterRoute)).data;
-      console.log(data);
+      const data = await FetchCharacters();
       setCharacters(data);
-      setFilteredCharacters(data);
       setIsLoading(false);
     };
 
@@ -93,15 +92,16 @@ const HomePage = () => {
       </div>
       <div className="search-bar-container fixed"></div>
       <div className="container text-center mt-5">
-        <div className="search-bar-wrapper">
+      <div className="search-bar-wrapper">
           <SearchBar id="search-input" onKeyPress={handleKeyPress} />
         </div>
         <div id="characters" className="character-grid panda-theme">
+          
           {isLoading
-            ? Array.from({ length: paginatedCharacters.length }, (_, i) => (
+            ? Array.from({ length: itemsPerPage }, (_, i) => (
                 <SkeletonCard key={i} />
               ))
-            : filteredCharacters.map((character) => (
+            : paginatedCharacters.map((character) => (
                 <CharacterCard
                   key={character.id}
                   character={character}

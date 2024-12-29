@@ -1,5 +1,5 @@
 import React from "react";
-import "./Create.css";
+import "../CSS/Create.css";
 import { Link } from "react-router-dom";
 import { CharacterImport } from "./Import/CharacterImport.jsx";
 
@@ -237,22 +237,23 @@ export default function Create() {
           </textarea>
         </div>
 
-        <div className="selected-tags mb-4">
-          <h6>Selected Tags</h6>
-          <div
-            className="tag-pills selected-tag-pills"
-            id="selectedTagsList"
-          ></div>
-        </div>
-        <div className="mb-3">
-          <button
-            type="button"
-            id="openTagsModal"
-            className="btn btn-primary w-100"
-          >
-            <i className="bi bi-tags-fill me-2"></i>Add Tags
-          </button>
-        </div>
+
+      <div className="selected-tags mb-4">
+        <h6>Selected Tags</h6>
+        <div
+          className="tag-pills selected-tag-pills"
+          id="selectedTagsList"
+        ></div>
+      </div>
+      <div className="mb-3">
+        <button
+          type="button"
+          id="openTagsModal"
+          className="btn btn-primary w-100"
+        >
+          <i className="bi bi-tags-fill me-2"></i>Add Tags
+        </button>
+      </div>
       </div>
 
       <div className="tags-modal" id="tagsModal">
@@ -398,7 +399,7 @@ export default function Create() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
     </>
   );
 }
