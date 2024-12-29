@@ -48,3 +48,14 @@ temp/
 # React Cache/Logs
 .cache/
 
+#history
+.history
+
+# Visual Studio Code
+.vscode
+
+# Intellij
+.idea
+
+# WebStorm
+.webstorm
