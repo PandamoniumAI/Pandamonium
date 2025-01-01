@@ -17,15 +17,8 @@ import bodyParser from 'body-parser';
 import authRoutes from './Routes/Authroute.js';
 import characterRoutes from './Routes/CharacterRoute.js';
 import reasonRoutes from './Routes/ReasonRoute.js';
-import imageRoutes from './Routes/ImageRoutes.js';
-import tagRoutes from './Routes/TagRoutes.js';
-import chatRoutes from './Routes/ChatRoutes.js';
-import personaRoutes from './Routes/PersonaRoutes.js';
-import idRoutes from './Routes/IdRoutes.js';
 
-dotenv.config();
-
-const app = express();
+const app = express()
 const PORT = 8080;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -40,6 +33,7 @@ const loginLimiter = rateLimit({
     message: 'Too many login attempts, please try again later.',
 });
 
+
 app.use(express.json());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
@@ -47,11 +41,6 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use('/auth', authRoutes);
 app.use('/api', characterRoutes);
 app.use('/Reason', reasonRoutes);
-app.use('/api/images', imageRoutes);
-app.use('/api/tags', tagRoutes);
-app.use('/api/chats', chatRoutes);
-app.use('/api/persona', personaRoutes);
-app.use('/api/id', idRoutes);
 
 cron.schedule('*/5 * * * *', async () => {
     try {
@@ -66,6 +55,41 @@ app.get('/ping', (req, res) => {
     console.log('Ping received');
     res.send('Pong');
 });
+
+
+
+
+
+const filePath = path.join('Public', 'JSONS', 'id.json');
+
+
+
+
+
+app.post('/shorten', async (req, res) => {
+    try {
+        const { image, name, description } = req.body;
+        const base64Data = image.split(',')[1];
+        const buffer = Buffer.from(base64Data, 'base64');
+        const imageSize = buffer.length;
+
+        if (imageSize > 12400) {
+            return res.status(413).json({ error: 'Image too large' });
+        }
+
+        const shortenedData = {
+            name,
+            description,
+            image: base64Data
+        };
+
+        res.json(shortenedData);
+    } catch (error) {
+        res.status(500).json({ error: 'Error shortening image', details: error.message });
+    }
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
