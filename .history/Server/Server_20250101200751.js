@@ -14,11 +14,8 @@ import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import * as cheerio from 'cheerio';
 import bodyParser from 'body-parser';
-import authRoutes from './Route/Authroute.js';
-import characterRoutes from './Route/CharacterRoute.js';
-import reasonRoutes from './Route/ReasonRoute.js';
 
-const app = express()
+const app = express();
 const PORT = 8080;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,8 +36,6 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use('/auth', authRoutes);
-app.use('/api', characterRoutes);
-app.use('/Reason', reasonRoutes);
 
 cron.schedule('*/5 * * * *', async () => {
     try {
@@ -57,6 +52,24 @@ app.get('/ping', (req, res) => {
 });
 
 
+app.post('/reason', async (req, res) => {
+    const { reason_text } = req.body;
+
+    if (!reason_text) {
+        return res.status(400).json({ error: 'Reason text is required' });
+    }
+
+    const { data, error } = await supabase
+        .from('reasons')
+        .insert([{ reason_text }])
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: 'Error saving reason', details: error.message });
+    }
+
+    res.status(201).json({ message: 'Reason saved successfully', data: data[0] });
+});
 
 
 

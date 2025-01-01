@@ -41,7 +41,6 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use('/auth', authRoutes);
 app.use('/api', characterRoutes);
 app.use('/Reason', reasonRoutes);
-
 cron.schedule('*/5 * * * *', async () => {
     try {
         await axios.get(`http://localhost:${PORT}/ping`);

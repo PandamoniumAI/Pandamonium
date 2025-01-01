@@ -16,8 +16,7 @@ import * as cheerio from 'cheerio';
 import bodyParser from 'body-parser';
 import authRoutes from './Route/Authroute.js';
 import characterRoutes from './Route/CharacterRoute.js';
-import reasonRoutes from './Route/ReasonRoute.js';
-
+import reasonRoutes from './Route/ReasonController.js';
 const app = express()
 const PORT = 8080;
 
@@ -41,7 +40,6 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use('/auth', authRoutes);
 app.use('/api', characterRoutes);
 app.use('/Reason', reasonRoutes);
-
 cron.schedule('*/5 * * * *', async () => {
     try {
         await axios.get(`http://localhost:${PORT}/ping`);

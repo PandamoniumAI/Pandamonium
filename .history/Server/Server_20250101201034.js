@@ -14,11 +14,8 @@ import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import * as cheerio from 'cheerio';
 import bodyParser from 'body-parser';
-import authRoutes from './Route/Authroute.js';
-import characterRoutes from './Route/CharacterRoute.js';
-import reasonRoutes from './Route/ReasonRoute.js';
 
-const app = express()
+const app = express();
 const PORT = 8080;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -40,8 +37,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use('/auth', authRoutes);
 app.use('/api', characterRoutes);
-app.use('/Reason', reasonRoutes);
-
+app.use('')
 cron.schedule('*/5 * * * *', async () => {
     try {
         await axios.get(`http://localhost:${PORT}/ping`);
