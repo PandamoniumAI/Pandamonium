@@ -90,10 +90,10 @@ export default function Preview() {
           <img src={image} alt="" />
         </div>
       </div>
-      
+      <div className="info px-10 relative bg-black" style={{top: "700px"}}>
       <div className="info px-10 relative bg-black" style={{top: "700px"}}>
         <div className="infotext mb-8 text-white">
-          <h1 className="text-3xl font-lato text-white ml-[450px]">
+          <h1 className="text-3xl font-bold text-white ml-[450px]">
             Why Choose PandAI?
           </h1>
 

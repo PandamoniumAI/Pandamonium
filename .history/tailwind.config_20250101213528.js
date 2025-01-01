@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import lato from "./src/assets/";
 
 export default {
   content: [
@@ -8,7 +9,7 @@ export default {
     extend: {
       fontFamily: {
         baloo: ["BalooDa2", "sans-serif"],
-        lato: ["Lato", "sans-serif"],
+        lato: lato,
       },
     },
   },

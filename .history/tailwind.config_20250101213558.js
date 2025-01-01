@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import lato from "./src/assets/fonts/Lato-Regular.ttf";
 
 export default {
   content: [

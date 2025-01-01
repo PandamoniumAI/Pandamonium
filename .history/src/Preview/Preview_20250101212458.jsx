@@ -90,10 +90,10 @@ export default function Preview() {
           <img src={image} alt="" />
         </div>
       </div>
-      
-      <div className="info px-10 relative bg-black" style={{top: "700px"}}>
+
+      <div className="info px-6 relative bg-black" style={{ top: "700px" }}>
         <div className="infotext mb-8 text-white">
-          <h1 className="text-3xl font-lato text-white ml-[450px]">
+          <h1 className="text-3xl font-bold text-white left-10">
             Why Choose PandAI?
           </h1>
 
@@ -159,70 +159,15 @@ export default function Preview() {
             ))}
           </div>
 
-          <div className="Footer bg-black py-8 px-6 mt-10 flex items-center justify-start space-x-36">
-            <div className="flex items-center">
-              <img
-                className="w-12 h-12 mr-4 transform transition duration-300 hover:scale-110"
-                src={Animal}
-                alt="Logo"
-              />
-              <h1 className="text-3xl font-bold font-baloo text-white">
+          <div className="Footer bg-black py-6 flex items-center pl-6 mt-10">
+            <img className="w-8 h-8 mr-4 mb-[35px]"  src={Animal} alt="Logo" />
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold font-baloo text-white">
                 Pand<span className="text-[#E03201]">AI</span>
               </h1>
-            </div>
-
-            <div className="Quicklinks mr-36 mt-6">
-              <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
-                Quick Links
-              </h1>
-              <ul className="list-none pl-0 mt-4 space-y-2">
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Home</a>
-                </li>
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Explore</a>
-                </li>
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Chats</a>
-                </li>
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Discord</a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="guide mr-36 mt-6">
-              <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
-                Guide
-              </h1>
-              <ul className="list-none pl-0 mt-4 space-y-2">
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Bot creation</a>
-                </li>
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">How token Works</a>
-                </li>
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Lorebooks</a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="legal mr-36 mt-6">
-              <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
-                Legal
-              </h1>
-              <ul className="list-none pl-0 mt-4 space-y-2">
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Privacy Policy</a>
-                </li>
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Terms of Service</a>
-                </li>
-                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-                  <a href="#">Rules</a>
-                </li>
-              </ul>
+              <p className="text-white mt-2">
+                © 2023 PandAI. All rights reserved.
+              </p>
             </div>
           </div>
         </div>

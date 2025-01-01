@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         baloo: ["BalooDa2", "sans-serif"],
-        lato: ["Lato", "sans-serif"],
+        lato: lato,
       },
     },
   },

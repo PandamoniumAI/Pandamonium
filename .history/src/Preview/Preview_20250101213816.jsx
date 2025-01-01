@@ -69,6 +69,7 @@ export default function Preview() {
           </p>
         </div>
 
+        
         <div className="Buttons absolute top-[500px] flex space-x-4 mb-8">
           <button className="text-white text-xl h-[47px] w-[200px] rounded-lg shadow-2xl bg-gradient-to-r from-[#E03201] to-[#611600] transform hover:scale-105 transition-all duration-300 ease-in-out hover:shadow-orange-500/50 hover:shadow-lg">
             <span className="relative z-10">Explore</span>
@@ -90,7 +91,7 @@ export default function Preview() {
           <img src={image} alt="" />
         </div>
       </div>
-      
+
       <div className="info px-10 relative bg-black" style={{top: "700px"}}>
         <div className="infotext mb-8 text-white">
           <h1 className="text-3xl font-lato text-white ml-[450px]">

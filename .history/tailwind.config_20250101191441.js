@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
 export default {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -7,9 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        baloo: ["BalooDa2", "sans-serif"],
-        lato: ["Lato", "sans-serif"],
-      },
+        "baloo": ["BalooDa2", "sans-serif"]
+      }
     },
   },
   plugins: [],

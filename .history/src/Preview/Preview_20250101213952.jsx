@@ -90,7 +90,8 @@ export default function Preview() {
           <img src={image} alt="" />
         </div>
       </div>
-      
+
+      <div className="infostart aboslute bg-black" style={{top: "700px"}}>
       <div className="info px-10 relative bg-black" style={{top: "700px"}}>
         <div className="infotext mb-8 text-white">
           <h1 className="text-3xl font-lato text-white ml-[450px]">
@@ -158,6 +159,7 @@ export default function Preview() {
               </div>
             ))}
           </div>
+        </div>
 
           <div className="Footer bg-black py-8 px-6 mt-10 flex items-center justify-start space-x-36">
             <div className="flex items-center">
