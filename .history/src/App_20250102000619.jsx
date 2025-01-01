@@ -4,7 +4,7 @@ import Create from "./Components/Create/Create.jsx";
 import Error from "./Components/Error/Error.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Preview from "../src/Preview/Preview.jsx";
-import TOS from "../src/Components/TOS/TOS.jsx";
+import TOS from ""
 function App() {
   return (
     <Router>
@@ -14,7 +14,6 @@ function App() {
         <Route path="/create" element={<Create />} />
         <Route path="*" element={<Error />} />
         <Route path="/preview" element={<Preview />} />
-        <Route path="/tos" element={<TOS />} />
       </Routes>
     </Router>
   );

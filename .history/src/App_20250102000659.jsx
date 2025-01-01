@@ -14,7 +14,7 @@ function App() {
         <Route path="/create" element={<Create />} />
         <Route path="*" element={<Error />} />
         <Route path="/preview" element={<Preview />} />
-        <Route path="/tos" element={<TOS />} />
+        
       </Routes>
     </Router>
   );
