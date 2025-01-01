@@ -93,9 +93,9 @@ export default function Preview() {
 </div>
 
       
-<div className="info px-10 relative bg-black" style={{top: "700px"}}>
+<div className="info px-10 relative bg-black animate__animated animate__fadeInUp animate__delay-1s" style={{ top: "700px" }}>
   <div className="infotext mb-8 text-white">
-    <h1 className="text-3xl font-lato text-white ml-[450px] animate__animated animate__fadeInUp animate__delay-1s">
+    <h1 className="text-3xl font-lato text-white ml-[450px] animate__animated animate__fadeIn animate__delay-2s">
       Why Choose PandAI?
     </h1>
 
@@ -107,14 +107,13 @@ export default function Preview() {
       ].map((title, index) => (
         <div
           key={index}
-          className="card relative flex flex-col justify-between w-[284px] h-[477px] rounded-[25px] overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:translateY-[-10px]"
+          className="card relative flex flex-col justify-between w-[284px] h-[477px] rounded-[25px] overflow-hidden animate__animated animate__fadeIn animate__delay-3s"
           onMouseMove={(e) => handleCardHover(e, e.currentTarget)}
         >
           <div
             className="absolute inset-0 -z-10 rounded-[25px]"
             style={{
-              background:
-                "linear-gradient(135deg, #BF18C2, #6B1C8F, #1D0375)",
+              background: "linear-gradient(135deg, #BF18C2, #6B1C8F, #1D0375)",
               position: "absolute",
               top: 0,
               left: 0,
@@ -124,11 +123,11 @@ export default function Preview() {
               padding: "2px",
             }}
           />
-          <div className="content p-6 bg-[#1A1A1A] flex flex-col justify-between h-full rounded-[25px] animate__animated animate__fadeInUp animate__delay-2s">
-            <h2 className="text-2xl font-semibold mb-4 text-white animate__animated animate__fadeInUp animate__delay-1s">
+          <div className="content p-6 bg-[#1A1A1A] flex flex-col justify-between h-full rounded-[25px] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-2xl font-semibold mb-4 text-white animate__animated animate__fadeIn animate__delay-4s">
               {title}
             </h2>
-            <p className="text-lg text-white">
+            <p className="text-lg text-white animate__animated animate__fadeIn animate__delay-5s">
               {index === 0
                 ? "Immerse yourself in dynamic roleplays with multiple characters, pre-designed genre templates, and tools like a scene builder for crafting vivid storytelling experiences."
                 : index === 1
@@ -136,99 +135,99 @@ export default function Preview() {
                   : "Experience unfiltered chats tailored to your preferences, refine AI responses with feedback, shape platform features with community input, and customize personas to your liking."}
             </p>
           </div>
-          <div className="image-container mt-4 transform transition-all duration-300 hover:scale-110 hover:rotate-3">
+          <div className="image-container mt-4">
             {index === 0 ? (
               <img
                 src={Chatcard}
                 alt="Roleplay"
-                className="w-full rounded-[25px] transition-transform duration-300 hover:scale-110 hover:rotate-3"
+                className="w-full rounded-[25px] transition-all duration-300 transform hover:scale-110 hover:opacity-80"
               />
             ) : index === 1 ? (
               <img
                 src={Book}
                 alt="Creator Tools"
-                className="w-full rounded-[25px] transition-transform duration-300 hover:scale-110 hover:rotate-3"
+                className="w-full rounded-[25px] transition-all duration-300 transform hover:scale-110 hover:opacity-80"
               />
             ) : (
               <img
                 src={Roleplay}
                 alt="Community"
-                className="w-full rounded-[25px] transition-transform duration-300 hover:scale-110 hover:rotate-3"
+                className="w-full rounded-[25px] transition-all duration-300 transform hover:scale-110 hover:opacity-80"
               />
             )}
           </div>
         </div>
       ))}
     </div>
-
-    <div className="Footer bg-black py-8 px-6 mt-10 flex items-center justify-start space-x-36 animate__animated animate__fadeInUp animate__delay-2s">
-      <div className="flex items-center animate__animated animate__fadeInUp animate__delay-3s">
-        <img
-          className="w-12 h-12 mr-4 transform transition duration-300 hover:scale-110 hover:rotate-6"
-          src={Animal}
-          alt="Logo"
-        />
-        <h1 className="text-3xl font-bold font-baloo text-white animate__animated animate__fadeInUp animate__delay-4s">
-          Pand<span className="text-[#E03201]">AI</span>
-        </h1>
-      </div>
-
-      <div className="Quicklinks mr-36 mt-6 animate__animated animate__fadeInUp animate__delay-4s">
-        <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
-          Quick Links
-        </h1>
-        <ul className="list-none pl-0 mt-4 space-y-2">
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Home</a>
-          </li>
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Explore</a>
-          </li>
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Chats</a>
-          </li>
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Discord</a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="guide mr-36 mt-6 animate__animated animate__fadeInUp animate__delay-5s">
-        <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
-          Guide
-        </h1>
-        <ul className="list-none pl-0 mt-4 space-y-2">
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Bot creation</a>
-          </li>
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">How token Works</a>
-          </li>
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Lorebooks</a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="legal mr-36 mt-6 animate__animated animate__fadeInUp animate__delay-6s">
-        <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
-          Legal
-        </h1>
-        <ul className="list-none pl-0 mt-4 space-y-2">
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Privacy Policy</a>
-          </li>
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Terms of Service</a>
-          </li>
-          <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
-            <a href="#">Rules</a>
-          </li>
-        </ul>
-      </div>
-    </div>
   </div>
 </div>
-</div>
+
+          <div className="Footer bg-black py-8 px-6 mt-10 flex items-center justify-start space-x-36">
+            <div className="flex items-center">
+              <img
+                className="w-12 h-12 mr-4 transform transition duration-300 hover:scale-110"
+                src={Animal}
+                alt="Logo"
+              />
+              <h1 className="text-3xl font-bold font-baloo text-white">
+                Pand<span className="text-[#E03201]">AI</span>
+              </h1>
+            </div>
+
+            <div className="Quicklinks mr-36 mt-6">
+              <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
+                Quick Links
+              </h1>
+              <ul className="list-none pl-0 mt-4 space-y-2">
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Home</a>
+                </li>
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Explore</a>
+                </li>
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Chats</a>
+                </li>
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Discord</a>
+                </li>
+              </ul>
+            </div>
+
+            <div className="guide mr-36 mt-6">
+              <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
+                Guide
+              </h1>
+              <ul className="list-none pl-0 mt-4 space-y-2">
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Bot creation</a>
+                </li>
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">How token Works</a>
+                </li>
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Lorebooks</a>
+                </li>
+              </ul>
+            </div>
+
+            <div className="legal mr-36 mt-6">
+              <h1 className="text-2xl font-bold font-baloo text-white border-b-2 border-[#E03201] pb-2">
+                Legal
+              </h1>
+              <ul className="list-none pl-0 mt-4 space-y-2">
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Privacy Policy</a>
+                </li>
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Terms of Service</a>
+                </li>
+                <li className="text-white hover:text-[#E03201] transition duration-300 transform hover:translate-x-2">
+                  <a href="#">Rules</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
   );
 }

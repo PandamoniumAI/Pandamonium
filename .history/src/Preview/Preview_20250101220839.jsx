@@ -229,6 +229,6 @@ export default function Preview() {
     </div>
   </div>
 </div>
-</div>
+
   );
 }
