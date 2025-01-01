@@ -7,7 +7,7 @@ import image from "../assets/image.png";
 import Chatcard from "../assets/Chat Card.png"
 import Book from "../assets/Magical Book World Illustration 1.png"
 import Roleplay from "../assets/Chat Card (1).png"
-
+"../"
 export default function Preview() {
   const handleCardHover = (event, element) => {
     const rect = element.getBoundingClientRect();
