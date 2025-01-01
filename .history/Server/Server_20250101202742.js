@@ -18,7 +18,7 @@ import authRoutes from './Routes/Authroute.js';
 import characterRoutes from './Routes/CharacterRoute.js';
 import reasonRoutes from './Routes/ReasonRoute.js';
 import imageRoutes from './Routes/ImageRoutes.js';
-import tagRoutes from './Routes/tagsRoutes.js';
+import tagRoutes from './Routes/tagRoutes.js';
 import chatRoutes from './Routes/ChatRoutes.js';
 import personaRoutes from './Routes/PersonaRoutes.js';
 import idRoutes from './Routes/IdRoutes.js';
