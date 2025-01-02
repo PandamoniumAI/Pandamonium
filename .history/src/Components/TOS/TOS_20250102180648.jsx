@@ -168,7 +168,7 @@ export default function TOS() {
             8. <b>Refunds</b>
           </p>
           <p>
-            We issue refunds for Contracts within <b className="font-bold text-red-500">5 days</b> of the original
+            We issue refunds for Contracts within <b calss>5 days</b> of the original
             purchase of the Contract.
           </p>
           <p>

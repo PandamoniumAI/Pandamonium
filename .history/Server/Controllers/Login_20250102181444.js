@@ -1,11 +1,16 @@
 import { 
+    express,
+    cors,
+    axios,
+    dotenv,
     bcrypt,
     rateLimit,
     Joi,
     jwt,
+
 } from '../Utils/serverUtils.js';
 
-import { SUPABASE_URL, SUPABASE_KEY } from '../Datastore/Supabase.js';
+import { SUPABASE_URL, SUPABASE_KEY } from '../Datastore/Supabase';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);

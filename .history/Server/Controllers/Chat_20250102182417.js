@@ -12,7 +12,7 @@ import {
     bcrypt,
     rateLimit,
 } from '../Utils/serverUtils.js';
-
+import "../../src/Components/HomePage/"
 // ES module workaround for __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

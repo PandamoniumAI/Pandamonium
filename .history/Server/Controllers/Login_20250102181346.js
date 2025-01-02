@@ -1,11 +1,24 @@
 import { 
+    express,
+    cors,
+    axios,
+    dotenv,
     bcrypt,
     rateLimit,
     Joi,
     jwt,
+    bodyParser,
+    authRoutes,
+    characterRoutes,
+    reasonRoutes,
+    imageRoutes,
+    tagRoutes,
+    chatRoutes,
+    personaRoutes,
+    idRoutes
 } from '../Utils/serverUtils.js';
 
-import { SUPABASE_URL, SUPABASE_KEY } from '../Datastore/Supabase.js';
+import { SUPABASE_URL, SUPABASE_KEY } from '../Datastore/Supabase';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);

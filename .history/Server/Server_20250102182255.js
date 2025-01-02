@@ -25,8 +25,6 @@ const PORT = 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const mainFilePath = path.resolve(__dirname, '../../src/Components/HomePage/HomePage.jsx');
-
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(cors());
 app.options('*', cors());
@@ -43,6 +41,10 @@ app.use('/api/chats', chatRoutes);
 app.use('/api/persona', personaRoutes);
 app.use('/api/id', idRoutes);
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src', 'Components', '', 'homepage.jsx'));
+});
+
 cron.schedule('*/5 * * * *', async () => {
     try {
         await axios.get(`http://localhost:${PORT}/ping`);
@@ -53,16 +55,7 @@ cron.schedule('*/5 * * * *', async () => {
 });
 
 app.get('/ping', (req, res) => {
-    console.log('Ping received');
     res.send('Pong');
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(mainFilePath, (err) => {
-        if (err) {
-            res.status(500).send('Error loading HomePage.jsx');
-        }
-    });
 });
 
 app.listen(PORT, () => {
