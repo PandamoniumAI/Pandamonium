@@ -1,2 +1,0 @@
-Contact: mailto:security@example.com
-Encryption: https://example.com/pgp-key

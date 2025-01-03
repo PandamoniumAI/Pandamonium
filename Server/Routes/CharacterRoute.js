@@ -8,7 +8,6 @@ router.post('/charactersdata', async (req, res) => {
     const payload = req.body;
     const requiredFields = ['name', 'photo', 'description', 'modelInstructions', 'firstMessage', 'system', 'tag', 'persona'];
 
-    // Check if all required fields are present in the payload
     if (!requiredFields.every(field => payload.hasOwnProperty(field))) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
